@@ -12,7 +12,52 @@ namespace PP_Lab_1
     {
         static void Main(string[] args)
         {
-            
+            var numbers = new List<int>();
+            var thread = new List<Thread>();
+
+            Console.Write(
+                "Select option:\n" +
+                "1 - Multithreading\n" +
+                "2 - No Multithreading\n>");
+
+            switch (int.Parse(Console.ReadLine()))
+            {
+                case 1:
+                    // Мультипоточність
+
+                    thread.Add(new Thread(() => InitRandomNumbersAndSaveToFile(9999999)));
+                    thread.Add(new Thread(() => InitRandomListData(ref numbers, 99999999)));                 
+                    thread.Add(new Thread(() => SieveEratosthenes(1900)));
+                 
+                    var watch = System.Diagnostics.Stopwatch.StartNew();
+                    //Запускаємо потоки
+                    foreach (Thread t in thread)
+                        t.Start();
+                    //Закриваємо потоки після того, як кожен з них відпрацював своє
+                    foreach (Thread t in thread)
+                        t.Join();
+
+                    watch.Stop();
+
+                    Console.WriteLine($"Multithreading time => Execution Time: {watch.ElapsedMilliseconds} ms");                 
+
+                    break;
+                case 2:
+
+                    // Послідовна обробка функцій
+                    var watch_n = System.Diagnostics.Stopwatch.StartNew();
+
+                    InitRandomNumbersAndSaveToFile(9999999);
+                    InitRandomListData(ref numbers, 99999999);
+                    SieveEratosthenes(1900);
+
+                    watch_n.Stop();
+
+                    Console.WriteLine($"Fixed queue time => Execution Time: {watch_n.ElapsedMilliseconds} ms");
+                    break;
+            }
+
+            Console.ReadKey();
         }
 
         static void InitRandomListData(ref List<int> numbers, int count)
