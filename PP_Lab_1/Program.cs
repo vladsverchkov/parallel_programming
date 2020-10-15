@@ -48,5 +48,28 @@ namespace PP_Lab_1
             Console.WriteLine($"InitRandomNumbersAndSaveToFile => Execution Time: {watch.ElapsedMilliseconds} ms");
         }
 
+        static void SieveEratosthenes(int number)
+        {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            var numbers = new List<int>();
+
+            for (var i = 2; i < number; i++)
+            {
+                numbers.Add(i);
+            }
+
+            for (var i = 0; i < numbers.Count; i++)
+            {
+                for (var j = 2; j < number; j++)
+                {
+                    numbers.Remove(numbers[i] * j);
+                }
+            }
+
+            watch.Stop();
+
+            Console.WriteLine($"SieveEratosthenes => Execution Time: {watch.ElapsedMilliseconds} ms");
+        }
     }
 }
