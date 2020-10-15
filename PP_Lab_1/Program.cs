@@ -29,6 +29,24 @@ namespace PP_Lab_1
             Console.WriteLine($"InitRandomListData => Execution Time: {watch.ElapsedMilliseconds} ms");
         }
 
-       
+        static void InitRandomNumbersAndSaveToFile(int count)
+        {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            using (var writer = File.AppendText("numbers.dat"))
+            {
+                var random = new Random();
+
+                for (var i = 0; i < count; i++)
+                    writer.WriteLine(random.Next(99999));
+
+                writer.Close();
+            }
+
+            watch.Stop();
+
+            Console.WriteLine($"InitRandomNumbersAndSaveToFile => Execution Time: {watch.ElapsedMilliseconds} ms");
+        }
+
     }
 }
