@@ -68,6 +68,30 @@ namespace PP_Lab_2
 
         }
 
+        static List<int> InsertionSorting(List<int> list)
+        {
+            int i, j, val, flag;
+            for (i = 1; i < list.Count; i++)
+            {
+                val = list[i];
+                flag = 0;
+                for (j = i - 1; j >= 0 && flag != 1;)
+                {
+                    if (val < list[j])
+                    {
+                        list[j + 1] = list[j];
+                        j--;
+                        list[j + 1] = val;
+                    }
+                    else flag = 1;
+                }
+            }
+
+            Console.WriteLine("\nInsertion Sort is finished (second algorithm)");
+            return list;
+        }
+
+
 
 
     }
