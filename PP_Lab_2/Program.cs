@@ -21,9 +21,7 @@ namespace PP_Lab_2
             
             List<int> list1 = InitListNumbers(new List<int>(), 200);           
 
-                    
 
-           
             Console.ReadKey();
         }
         static List<int> InitListNumbers(List<int> list, int count)
@@ -91,6 +89,39 @@ namespace PP_Lab_2
             return list;
         }
 
+        static List<int> heapSort(List<int> list, int n)
+        {
+            for (int i = n / 2 - 1; i >= 0; i--)
+                heapify(list, n, i);
+            for (int i = n - 1; i >= 0; i--)
+            {
+                int temp = list[0];
+                list[0] = list[i];
+                list[i] = temp;
+                heapify(list, i, 0);
+            }
+
+            Console.WriteLine("\nHeapSort is finished (third algorithm)");
+
+            return list;
+        }
+        static void heapify(List<int> list, int n, int i)
+        {
+            int largest = i;
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+            if (left < n && list[left] > list[largest])
+                largest = left;
+            if (right < n && list[right] > list[largest])
+                largest = right;
+            if (largest != i)
+            {
+                int swap = list[i];
+                list[i] = list[largest];
+                list[largest] = swap;
+                heapify(list, n, largest);
+            }
+        }
 
 
 
