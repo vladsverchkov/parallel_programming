@@ -35,9 +35,35 @@ namespace PP_Lab_2
             PrintList("\nOutput list INSERTED_SORT: ", task2.Result);
             PrintList("\nOutput list HEAP_SORT: ", task3.Result);
 
+            ComparingFunction(task1.Result, task2.Result, task3.Result);
 
             Console.ReadKey();
         }
+
+        static void ComparingFunction(List<int> list1, List<int> list2, List<int> list3)
+        {
+            Console.WriteLine("\n***************************************");
+            Console.WriteLine("\nLength of BubbleSort list: " + list1.Count);
+            Console.WriteLine("\nLength of InsertedSort list: " + list2.Count);
+            Console.WriteLine("\nLength of HeapSort list: " + list3.Count);
+
+            if ((list1.Count == list2.Count) && (list2.Count == list3.Count) && (list1.Count == list3.Count))
+            {
+                for (int i = 0; i < list1.Count; i++)
+                {
+                    if (list1[i] != list2[i])
+                        Console.WriteLine("Not matched elements! It is on position " + i);
+
+                    if (list1[i] != list3[i])
+                        Console.WriteLine("Not matched elements! It is on position " + i);
+
+                    if (list3[i] != list2[i])
+                        Console.WriteLine("Not matched elements! It is on position " + i);
+                }
+            }
+
+        }
+
         static List<int> InitListNumbers(List<int> list, int count)
         {
             var random = new Random();
