@@ -35,6 +35,40 @@ namespace PP_Lab_2
             return list;
         }
 
-       
+        static void PrintList(string title, List<int> list)
+        {
+            Console.Write(title);
+
+
+            foreach (var item in list)
+                Console.Write(item + "  ");
+
+            Console.WriteLine();
+        }
+
+        static List<int> BubbleSort(List<int> list)
+        {
+            int temp;
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    if (list[i] > list[j])
+                    {
+                        temp = list[i];
+                        list[i] = list[j];
+                        list[j] = temp;
+                    }
+                }
+
+            }
+
+            Console.WriteLine("\nBubbleSort is finished (first algorithm)");
+            return list;
+
+        }
+
+
+
     }
 }
