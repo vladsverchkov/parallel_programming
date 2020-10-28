@@ -19,7 +19,21 @@ namespace PP_Lab_2
         static void Main(string[] args)
         {
             
-            List<int> list1 = InitListNumbers(new List<int>(), 200);           
+            List<int> list1 = InitListNumbers(new List<int>(), 200);
+
+            PrintList("Input list: ", list1);
+
+            var task1 = Task.Factory.StartNew(() => BubbleSort(list1));
+            var task2 = Task.Factory.StartNew(() => InsertionSorting(list1));
+            var task3 = Task.Factory.StartNew(() => heapSort(list1, list1.Count));
+
+            task1.Wait();
+            task2.Wait();
+            task3.Wait();
+
+            PrintList("\nOutput list BUBBLE: ", task1.Result);
+            PrintList("\nOutput list INSERTED_SORT: ", task2.Result);
+            PrintList("\nOutput list HEAP_SORT: ", task3.Result);
 
 
             Console.ReadKey();
