@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,23 +20,42 @@ namespace PP_Lab_2
         static void Main(string[] args)
         {
             
-            List<int> list1 = InitListNumbers(new List<int>(), 200);
+            List<int> list1 = InitListNumbers(new List<int>(), 20);
+            List<int> list2, list3;
+            list2 = list3 = list1;    
 
             PrintList("Input list: ", list1);
 
-            var task1 = Task.Factory.StartNew(() => BubbleSort(list1));
-            var task2 = Task.Factory.StartNew(() => InsertionSorting(list1));
-            var task3 = Task.Factory.StartNew(() => heapSort(list1, list1.Count));
 
-            task1.Wait();
-            task2.Wait();
-            task3.Wait();
+            Parallel.Invoke(
 
-            PrintList("\nOutput list BUBBLE: ", task1.Result);
-            PrintList("\nOutput list INSERTED_SORT: ", task2.Result);
-            PrintList("\nOutput list HEAP_SORT: ", task3.Result);
+                () => BubbleSort(list1),
+                () => InsertionSorting(list2),
+                () => heapSort(list3, list3.Count)
 
-            ComparingFunction(task1.Result, task2.Result, task3.Result);
+                );
+
+
+            PrintList("\nOutput list BUBBLE: ", list1);
+            PrintList("\nOutput list INSERTED_SORT: ", list2);
+            PrintList("\nOutput list HEAP_SORT: ", list3);
+
+            ComparingFunction(list1, list2, list3);
+            Console.WriteLine("\nFINISHED");          
+
+            //var task1 = Task.Factory.StartNew(() => BubbleSort(list1));
+            //var task2 = Task.Factory.StartNew(() => InsertionSorting(list1));
+            //var task3 = Task.Factory.StartNew(() => heapSort(list1, list1.Count));
+
+            //task1.Wait();
+            //task2.Wait();
+            //task3.Wait();
+
+            //PrintList("\nOutput list BUBBLE: ", task1.Result);
+            //PrintList("\nOutput list INSERTED_SORT: ", task2.Result);
+            //PrintList("\nOutput list HEAP_SORT: ", task3.Result);
+
+            //ComparingFunction(task1.Result, task2.Result, task3.Result);
 
             Console.ReadKey();
         }
@@ -52,15 +72,17 @@ namespace PP_Lab_2
                 for (int i = 0; i < list1.Count; i++)
                 {
                     if (list1[i] != list2[i])
-                        Console.WriteLine("Not matched elements! It is on position " + i);
+                        Console.WriteLine("Not matched elements in list1 and list2! It is on position " + i);
 
-                    if (list1[i] != list3[i])
-                        Console.WriteLine("Not matched elements! It is on position " + i);
+                    else if (list1[i] != list3[i])
+                        Console.WriteLine("Not matched elements in list1 and list3! It is on position " + i);
 
-                    if (list3[i] != list2[i])
-                        Console.WriteLine("Not matched elements! It is on position " + i);
+                    else if (list3[i] != list2[i])
+                        Console.WriteLine("Not matched elements in list2 and list3! It is on position " + i);
                 }
             }
+            else
+                Console.WriteLine("List lengths doesn`t match!");
 
         }
 
@@ -87,7 +109,7 @@ namespace PP_Lab_2
         static List<int> BubbleSort(List<int> list)
         {
             int temp;
-            for (int i = 0; i < list.Count - 1; i++)
+            for (int i = 0; i < list.Count - 1; i++)       
             {
                 for (int j = i + 1; j < list.Count; j++)
                 {
