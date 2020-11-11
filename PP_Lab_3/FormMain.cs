@@ -13,14 +13,26 @@ namespace PP_Lab_3
 {
     public partial class FormMain : Form
     {
-        List<Particle> molecules;
-        int speed;
-        CancellationTokenSource cancelToken;
-        CancellationToken ct;
+       
+        Particle p1 = new Particle();
+        Particle p2 = new Particle();
+        bool flag = false;
+        System.Windows.Forms.Timer timer2 = new System.Windows.Forms.Timer();
+
+        Particle[] p;
+        ParticleWithCoord pc;
+        double[] xCoor;
+        double[] yCoor;
         public FormMain()
         {
-            InitializeComponent();
-            this.molecules = new List<Particle>();
+            InitializeComponent();        
+        }
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            label3.Text = "";
+            button2.Enabled = false;
+            pictureBox1.Visible = true;
+            trackBar1.Value = 300;
         }
 
         private void temperatureInput_ValueChanged(object sender, EventArgs e)
@@ -40,7 +52,7 @@ namespace PP_Lab_3
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-
+            label4.Text = trackBar1.Value.ToString();
         }
 
         public void drawPoint(int x, int y, PictureBox pictureBox1)

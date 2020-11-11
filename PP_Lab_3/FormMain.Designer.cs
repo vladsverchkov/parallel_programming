@@ -175,6 +175,7 @@
             this.trackBar1.Size = new System.Drawing.Size(104, 45);
             this.trackBar1.TabIndex = 14;
             this.trackBar1.TickFrequency = 20;
+            this.trackBar1.Value = 300;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // label3
