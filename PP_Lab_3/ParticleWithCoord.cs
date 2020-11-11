@@ -39,8 +39,13 @@ namespace PP_Lab_3
                 X_array[i] = just_xArr[i];
                 Y_array[i] = just_yArr[i];
             }
-           
+            ActionTimeInkrement();
 
+        }
+
+        private void ActionTimeInkrement()
+        {
+            ActionTime += 50;
         }
 
     }
