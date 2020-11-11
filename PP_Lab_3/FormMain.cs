@@ -13,14 +13,14 @@ namespace PP_Lab_3
 {
     public partial class FormMain : Form
     {
-        List<Molecule> molecules;
+        List<Particle> molecules;
         int speed;
         CancellationTokenSource cancelToken;
         CancellationToken ct;
         public FormMain()
         {
             InitializeComponent();
-            this.molecules = new List<Molecule>();
+            this.molecules = new List<Particle>();
         }
 
 
