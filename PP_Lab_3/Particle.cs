@@ -74,6 +74,39 @@ namespace PP_Lab_3
             }
         }
 
+        public void repulsionPower(Particle[] array)
+        {
+
+            foreach (Particle i in array)
+            {
+                if (!this.Equals(i))
+                {
+                    var d = Math.Sqrt((this.xCoord - i.xCoord) * (this.xCoord - i.xCoord) +
+                        (this.yCoord - i.yCoord) * (this.yCoord - i.yCoord));
+
+                    if (d <= 10)
+                    {
+
+                        xSpeed += (xCoord - i.xCoord) / 8;
+                        ySpeed += (yCoord - i.yCoord) / 8;
+                        i.xSpeed -= (xCoord - i.xCoord) / 8;
+                        i.ySpeed -= (yCoord - i.yCoord) / 8;
+                        if (xSpeed > maxSpeed)
+                            xSpeed = maxSpeed;
+                        if (xSpeed < -maxSpeed)
+                            xSpeed = -maxSpeed;
+                        if (ySpeed > maxSpeed)
+                            ySpeed = maxSpeed;
+                        if (ySpeed < -maxSpeed)
+                            ySpeed = -maxSpeed;
+
+
+                    }
+                }
+            }
+
+        }
+
 
     }
 }
