@@ -37,7 +37,18 @@ namespace PP_Lab_3
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            if (!flag)
+            {
+                button2.Text = "Stop modulation";
+                timer1.Start();
+                flag = true;
+            }
+            else
+            {
+                button2.Text = "Run modulation";
+                timer1.Stop();
+                flag = false;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
