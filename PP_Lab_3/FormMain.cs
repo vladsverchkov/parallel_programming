@@ -33,12 +33,7 @@ namespace PP_Lab_3
             button2.Enabled = false;
             pictureBox1.Visible = true;
             trackBar1.Value = 300;
-        }
-
-        private void temperatureInput_ValueChanged(object sender, EventArgs e)
-        {
-           
-        }
+        }      
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -56,7 +51,7 @@ namespace PP_Lab_3
             }
             catch
             {
-                MessageBox.Show("Перевірте введені данні", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Check input data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return;
             }
@@ -86,6 +81,48 @@ namespace PP_Lab_3
 
             drawPoint(Convert.ToInt32(pc.X), Convert.ToInt32(pc.Y), pictureBox1);
             button2.Enabled = true;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
+            for (int i = 0; i < p.Length; i++)
+            {
+                p[i].Move(pictureBox1.Size);
+                p[i].repulsionPower(p);
+
+            }
+            pc.Move(pictureBox1.Size);
+            pc.repulsionPower(p);
+
+            for (int j = 0; j < p.Length; j++)
+                drawPoint(Convert.ToInt32(p[j].X), Convert.ToInt32(p[j].Y), pictureBox1);
+            drawPoint(Convert.ToInt32(pc.X), Convert.ToInt32(pc.Y), pictureBox1);
+
+            if (radioButton1.Checked)
+            {
+                //=================
+                label3.Text = "Time modulation:\n" + pc.ActionTime + " ms";
+                //==================
+                if (pc.ActionTime >= numericUpDown2.Value)
+                {
+                    flag = false;
+                    timer1.Stop();
+                    pc.ActionTime = 0;
+                    button2.Text = "Run modulation";
+                }
+            }
+            else if (radioButton2.Checked)
+            {
+                label3.Text = "Iteration: " + ((int)pc.ActionTime / 100).ToString();
+                if (pc.ActionTime / 100 >= numericUpDown2.Value)
+                {
+                    flag = false;
+                    timer1.Stop();
+                    pc.ActionTime = 0;
+                    button2.Text = "Run modulation";
+                }
+            }
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
