@@ -21,8 +21,7 @@ namespace PP_Lab_3
 
         Particle[] p;
         ParticleWithCoord pc;
-        double[] xCoor;
-        double[] yCoor;
+        
         public FormMain()
         {
             InitializeComponent();        
@@ -153,5 +152,19 @@ namespace PP_Lab_3
             g.FillRectangle(brush, rect);
             g.Dispose();
         }
+
+        //private void Timer2_Tick(object sender, EventArgs e)
+        //{
+        //    pictureBox1.Refresh();
+        //    Particle[] pr = new Particle[2];
+        //    pr[0] = p1;
+        //    pr[1] = p2;
+        //    p1.Move(pictureBox1.Size);
+        //    p2.Move(pictureBox1.Size);
+        //    p1.repulsionPower(pr);
+
+        //    drawPoint(Convert.ToInt32(p1.X), Convert.ToInt32(p1.Y), pictureBox1);
+        //    drawPoint(Convert.ToInt32(p2.X), Convert.ToInt32(p2.Y), pictureBox1);
+        //}
     }
 }

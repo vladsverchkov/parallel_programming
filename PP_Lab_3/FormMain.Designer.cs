@@ -66,8 +66,8 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(862, 74);
-            this.panel1.TabIndex = 0;
+            this.panel1.Size = new System.Drawing.Size(852, 74);
+            this.panel1.TabIndex = 15;
             // 
             // numericUpDown1
             // 
@@ -97,7 +97,7 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(224, 54);
-            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Тип";
             // 
@@ -155,7 +155,7 @@
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(25, 13);
-            this.label4.TabIndex = 17;
+            this.label4.TabIndex = 8;
             this.label4.Text = "300";
             // 
             // label1
@@ -164,7 +164,7 @@
             this.label1.Location = new System.Drawing.Point(12, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(91, 13);
-            this.label1.TabIndex = 13;
+            this.label1.TabIndex = 4;
             this.label1.Text = "Num of particles";
             // 
             // trackBar1
@@ -173,7 +173,7 @@
             this.trackBar1.Maximum = 1000;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(104, 45);
-            this.trackBar1.TabIndex = 14;
+            this.trackBar1.TabIndex = 5;
             this.trackBar1.TickFrequency = 20;
             this.trackBar1.Value = 300;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
@@ -192,7 +192,7 @@
             this.button1.Location = new System.Drawing.Point(449, 10);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(102, 45);
-            this.button1.TabIndex = 11;
+            this.button1.TabIndex = 1;
             this.button1.Text = "Generate particles";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -202,7 +202,7 @@
             this.button2.Location = new System.Drawing.Point(557, 10);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(100, 45);
-            this.button2.TabIndex = 12;
+            this.button2.TabIndex = 2;
             this.button2.Text = "Run modulation";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -213,7 +213,7 @@
             this.label2.Location = new System.Drawing.Point(123, 5);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 13);
-            this.label2.TabIndex = 15;
+            this.label2.TabIndex = 6;
             this.label2.Text = "Temperature (К)";
             // 
             // pictureBox1
@@ -221,19 +221,20 @@
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.pictureBox1.Location = new System.Drawing.Point(2, 82);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(862, 420);
+            this.pictureBox1.Size = new System.Drawing.Size(851, 392);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
             // timer1
             // 
             this.timer1.Interval = 50;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(866, 504);
+            this.ClientSize = new System.Drawing.Size(858, 504);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel1);
             this.Name = "FormMain";

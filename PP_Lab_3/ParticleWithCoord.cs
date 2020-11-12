@@ -21,6 +21,7 @@ namespace PP_Lab_3
 
         }
 
+
         public override void Move(Size size)
         {
             base.Move(size);
