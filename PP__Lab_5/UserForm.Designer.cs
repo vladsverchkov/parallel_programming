@@ -1,4 +1,4 @@
-﻿namespace PP__Lab_5
+﻿namespace NetWork.User.Window
 {
     partial class UserForm
     {
