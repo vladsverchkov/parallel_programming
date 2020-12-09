@@ -214,7 +214,7 @@ namespace NetWork.User.Window
                     message[0] = selectedUser;
                     message[1] = messageTextBox.Text;
 
-                    LocalChatWindow(User.name + " -> " + selectedUser + ": " + messageTextBox.Text, Client.colorSpecificChat);
+                    LocalChatWindow(User.name + " -> " + selectedUser + ": " + messageTextBox.Text, User.colorSpecificChat);
                     User.DataOut(1, message);
                     messageTextBox.Clear();
                     clientListBox.ClearSelected();

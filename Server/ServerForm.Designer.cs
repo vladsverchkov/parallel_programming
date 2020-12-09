@@ -1,4 +1,4 @@
-﻿namespace Server
+﻿namespace NetWork.Server.Window
 {
     partial class ServerForm
     {
