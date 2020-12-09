@@ -43,12 +43,12 @@ namespace NetWork.User // створюємо свій простір імен (�
             try 
             {
                 masterSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(ipAddress), int.Parse(port)); //creats an IPEndPoint and sets it with ipAddress and port
-                masterSocket.Connect(ipe); //connects to the server
+                IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(ipAddress), int.Parse(port)); 
+                masterSocket.Connect(ipe); //підключення до серверу
             }
             catch 
             {
-                userWindow.ChatWindow("Could not connect to host!", colorAlert); //prints text to screen
+                userWindow.ChatWindow("Cannot connect to host!", colorAlert);
                 Disconnect();
             }
 
@@ -63,6 +63,33 @@ namespace NetWork.User // створюємо свій простір імен (�
             userWindow.Connected(false);
             masterSocket.Close(); 
         }
+
+        static void DataIn() 
+        {
+            while (connected) 
+            {
+                try //ловимо SocketException якщо відконнект від серверу
+                {
+                    byte[] buffer; //буфер для прийому даних, які до нас надходять
+                    int readBytes; //для зчитування, скільки байтів було прочитано з тих, що ми отримали
+
+                    buffer = new byte[masterSocket.SendBufferSize]; //встановлення буферу до розмірів даних ,які будуть отримані
+                    readBytes = masterSocket.Receive(buffer);
+
+                    if (readBytes == 0)
+                    {
+                        throw new SocketException();
+                    }
+                    DataManager(Packet.UnPack(buffer)); //розпакування даних та виклик DataManager
+                }
+                catch (SocketException se)
+                {
+                    userWindow.ChatWindow("Disconnected", colorAlert);
+                    Disconnect(); 
+                }
+            }
+        } 
+
 
     }
 }

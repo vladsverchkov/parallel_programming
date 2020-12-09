@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserForm));
             this.ipLabel = new System.Windows.Forms.Label();
             this.ipTextBox = new System.Windows.Forms.TextBox();
@@ -42,6 +43,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.sendButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.contextMenuStripChat = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.clearChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripChat.SuspendLayout();
             this.SuspendLayout();
             // 
             // ipLabel
@@ -61,8 +65,9 @@
             this.ipTextBox.MaxLength = 15;
             this.ipTextBox.MinimumSize = new System.Drawing.Size(87, 20);
             this.ipTextBox.Name = "ipTextBox";
-            this.ipTextBox.Size = new System.Drawing.Size(87, 20);
+            this.ipTextBox.Size = new System.Drawing.Size(87, 22);
             this.ipTextBox.TabIndex = 0;
+            this.ipTextBox.TextChanged += new System.EventHandler(this.IPTextBox_TextChanged);
             // 
             // portLabel
             // 
@@ -80,8 +85,9 @@
             this.portTextBox.MaxLength = 5;
             this.portTextBox.MinimumSize = new System.Drawing.Size(36, 20);
             this.portTextBox.Name = "portTextBox";
-            this.portTextBox.Size = new System.Drawing.Size(36, 20);
+            this.portTextBox.Size = new System.Drawing.Size(36, 22);
             this.portTextBox.TabIndex = 1;
+            this.portTextBox.TextChanged += new System.EventHandler(this.PortTextBox_TextChanged);
             // 
             // nameLabel
             // 
@@ -99,6 +105,7 @@
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(125, 22);
             this.nameTextBox.TabIndex = 2;
+            this.nameTextBox.TextChanged += new System.EventHandler(this.NameTextBox_TextChanged);
             // 
             // connectButton
             // 
@@ -108,13 +115,15 @@
             this.connectButton.TabIndex = 3;
             this.connectButton.Text = "Connect";
             this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.ConnectButton_Click);
             // 
             // chatRichTextBox
             // 
+            this.chatRichTextBox.ContextMenuStrip = this.contextMenuStripChat;
             this.chatRichTextBox.Location = new System.Drawing.Point(180, 71);
             this.chatRichTextBox.Name = "chatRichTextBox";
             this.chatRichTextBox.Size = new System.Drawing.Size(385, 307);
-            this.chatRichTextBox.TabIndex = 2;
+            this.chatRichTextBox.TabIndex = 5;
             this.chatRichTextBox.Text = "";
             // 
             // messageTextBox
@@ -124,6 +133,7 @@
             this.messageTextBox.Size = new System.Drawing.Size(385, 54);
             this.messageTextBox.TabIndex = 3;
             this.messageTextBox.Text = "";
+            this.messageTextBox.TextChanged += new System.EventHandler(this.MessageTextBox_TextChanged);
             // 
             // clientListBox
             // 
@@ -132,6 +142,7 @@
             this.clientListBox.Name = "clientListBox";
             this.clientListBox.Size = new System.Drawing.Size(151, 329);
             this.clientListBox.TabIndex = 4;
+            this.clientListBox.SelectedIndexChanged += new System.EventHandler(this.ClientListBox_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -151,6 +162,7 @@
             this.sendButton.TabIndex = 6;
             this.sendButton.Text = "Send Message";
             this.sendButton.UseVisualStyleBackColor = true;
+            this.sendButton.Click += new System.EventHandler(this.SendButton_Click);
             // 
             // label2
             // 
@@ -161,6 +173,19 @@
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 7;
             this.label2.Text = "Users:";
+            // 
+            // contextMenuStripChat
+            // 
+            this.contextMenuStripChat.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearChatToolStripMenuItem});
+            this.contextMenuStripChat.Name = "contextMenuStripChat";
+            this.contextMenuStripChat.Size = new System.Drawing.Size(128, 26);
+            // 
+            // clearChatToolStripMenuItem
+            // 
+            this.clearChatToolStripMenuItem.Name = "clearChatToolStripMenuItem";
+            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.clearChatToolStripMenuItem.Text = "Clear Chat";
             // 
             // UserForm
             // 
@@ -183,6 +208,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UserForm";
             this.Text = "User Chat";
+            this.contextMenuStripChat.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,6 +228,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripChat;
+        private System.Windows.Forms.ToolStripMenuItem clearChatToolStripMenuItem;
     }
 }
 
