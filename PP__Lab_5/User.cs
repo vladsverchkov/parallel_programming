@@ -28,6 +28,7 @@ namespace NetWork.User // створюємо свій простір імен (�
         public static Color colorChat = Color.DarkBlue;
         public static Color colorSpecificChat = Color.Purple;
 
+        [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();

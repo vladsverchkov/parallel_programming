@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkLib", "NetworkLib\Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{F81642CE-9858-4927-958E-E0488BEC8CBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{E914BEC9-5670-414D-AE41-8E47D68541C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F81642CE-9858-4927-958E-E0488BEC8CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F81642CE-9858-4927-958E-E0488BEC8CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F81642CE-9858-4927-958E-E0488BEC8CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E914BEC9-5670-414D-AE41-8E47D68541C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E914BEC9-5670-414D-AE41-8E47D68541C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E914BEC9-5670-414D-AE41-8E47D68541C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E914BEC9-5670-414D-AE41-8E47D68541C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
