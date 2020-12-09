@@ -88,7 +88,88 @@ namespace NetWork.User // створюємо свій простір імен (�
                     Disconnect(); 
                 }
             }
-        }   
+        }
+
+        public static void DataOut(int packetType, string[] sendData) // вивантаження даних до серверу
+        {
+            var content = Tuple.Create(packetType, sendData);
+            masterSocket.Send(Packet.Pack(content)); //пакування даних та відправка їх до серверу
+        }
+
+        static void DataManager(Tuple<int, string[]> content) //опрацювання даних
+        {
+            if (content.Item1 >= 0 && content.Item1 <= 3)
+            {
+                switch (content.Item1)
+                {
+                    case 0: //загальний чат
+                        if (content.Item2.Length == 2 && content.Item2 != null)
+                            userWindow.ChatWindow(content.Item2[0] + ": " + content.Item2[1], colorChat);
+                        break;
+
+                    case 1: //чат з конкретно вказаним юзером
+                        if (content.Item2.Length == 2 && content.Item2 != null)
+                            userWindow.ChatWindow(content.Item2[0] + " -> " + name + ": " + content.Item2[1], colorSpecificChat);
+                        break;
+
+                    case 2: //реєстрація
+                        if (content.Item2.Length > 0)
+                        {
+                            foreach (string clientName in content.Item2)
+                            {
+                                if (clientName != null && clientName != string.Empty && clientName != name)
+                                {
+                                    userWindow.UserList(clientName, false);
+                                    users.Add(clientName);
+                                }
+                            }
+                        }
+                        var registration = new string[1];
+                        registration[0] = name;
+                        DataOut(2, registration);
+                        userWindow.Connected(true);
+                        userWindow.ChatWindow("Connected to server", colorSystem);
+                        break;
+
+                    case 3: //список юзерів
+                        if (content.Item2.Length > 0 && content.Item2 != null)
+                        {
+                            if (users.Count > 0)
+                            {
+                                for (int i = 0; i < users.Count; i++)
+                                {
+                                    if (users[i] == content.Item2[0])
+                                    {
+                                        userWindow.ChatWindow(content.Item2[0] + " disconnected", colorDisconnect);
+                                        userWindow.UserList(content.Item2[0], true);
+                                        users.Remove(content.Item2[0]);
+                                        break;
+                                    }
+
+                                    if (i == users.Count - 1)
+                                    {
+                                        userWindow.ChatWindow(content.Item2[0] + " connected", colorConnect);
+                                        userWindow.UserList(content.Item2[0], false);
+                                        users.Add(content.Item2[0]);
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (content.Item2[0] != null)
+                                {
+                                    userWindow.ChatWindow(content.Item2[0] + " connected", colorConnect);
+                                    userWindow.UserList(content.Item2[0], false);
+                                    users.Add(content.Item2[0]);
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+
 
     }
 }
