@@ -290,7 +290,7 @@ namespace NetWork.Server
                     case 2: //реєстрація
                         if (IsBand(((IPEndPoint)user.clientSocket.RemoteEndPoint).Address))
                         {
-                            DisconnectClient(user, "you are band");
+                            DisconnectClient(user, "you are banned");
                         }
                         else
                         if (CheckIfNamesTaken(content.Item2[0]))
@@ -313,7 +313,7 @@ namespace NetWork.Server
             }
             else
             {
-                DisconnectClient(user, "disconnected for not being registerd");
+                DisconnectClient(user, "disconnected for not being registered");
             }
         }
 
@@ -325,7 +325,7 @@ namespace NetWork.Server
             var ips = managedClientsXML.Descendants().Elements("Client").AsEnumerable().ToArray();
             for (int i = 0; i < ips.Length; i++)
             {
-                if (ips[i].Attribute("Address").Value == ipAddress.ToString() && (Convert.ToBoolean(ips[i].Attribute("Band").Value)))
+                if (ips[i].Attribute("Address").Value == ipAddress.ToString() && (Convert.ToBoolean(ips[i].Attribute("Banned").Value)))
                 {
                     return true;
                 }
@@ -467,7 +467,7 @@ namespace NetWork.Server
                 new XElement("Client",
                     new XAttribute("Name", ""),
                     new XAttribute("Address", ""),
-                    new XAttribute("Band", false),
+                    new XAttribute("Banned", false),
                     new XAttribute("Reason", "")
             );
 
@@ -501,7 +501,7 @@ namespace NetWork.Server
                             new XElement("Client",
                                 new XAttribute("Name", name),
                                 new XAttribute("Address", ((IPEndPoint)user.clientSocket.RemoteEndPoint).Address),
-                                new XAttribute("Band", false),
+                                new XAttribute("Banned", false),
                                 new XAttribute("Reason", "")
                         );
 
@@ -518,7 +518,7 @@ namespace NetWork.Server
                     new XElement("Client",
                         new XAttribute("Name", name),
                         new XAttribute("Address", ((IPEndPoint)user.clientSocket.RemoteEndPoint).Address),
-                        new XAttribute("Band", false),
+                        new XAttribute("Banned", false),
                         new XAttribute("Reason", "")
                 );
 
@@ -552,7 +552,7 @@ namespace NetWork.Server
                             new XElement("Client",
                                 new XAttribute("Name", name),
                                 new XAttribute("Address", ((IPEndPoint)user.clientSocket.RemoteEndPoint).Address),
-                                new XAttribute("Band", bandFromServer),
+                                new XAttribute("Banned", bandFromServer),
                                 new XAttribute("Reason", "")
                             );
 
@@ -569,7 +569,7 @@ namespace NetWork.Server
                     new XElement("Client",
                     new XAttribute("Name", name),
                     new XAttribute("Address", ((IPEndPoint)user.clientSocket.RemoteEndPoint).Address),
-                    new XAttribute("Band", bandFromServer),
+                    new XAttribute("Banned", bandFromServer),
                     new XAttribute("Reason", "")
                 );
 
@@ -602,7 +602,7 @@ namespace NetWork.Server
                             new XElement("Client",
                                 new XAttribute("Name", name),
                                 new XAttribute("Address", user.clientSocket.RemoteEndPoint),
-                                new XAttribute("Band", bandFromServer),
+                                new XAttribute("Banned", bandFromServer),
                                 new XAttribute("Reason", reason)
                             );
 
@@ -619,7 +619,7 @@ namespace NetWork.Server
                     new XElement("Client",
                         new XAttribute("Name", name),
                         new XAttribute("Address", user.clientSocket.RemoteEndPoint),
-                        new XAttribute("Band", bandFromServer),
+                        new XAttribute("Banned", bandFromServer),
                         new XAttribute("Reason", reason)
                     );
 

@@ -38,13 +38,13 @@
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.connectButton = new System.Windows.Forms.Button();
             this.chatRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.contextMenuStripChat = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.clearChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.messageTextBox = new System.Windows.Forms.RichTextBox();
             this.clientListBox = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.sendButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.contextMenuStripChat = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.clearChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripChat.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,6 +109,7 @@
             // 
             // connectButton
             // 
+            this.connectButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.connectButton.Location = new System.Drawing.Point(441, 12);
             this.connectButton.Name = "connectButton";
             this.connectButton.Size = new System.Drawing.Size(124, 53);
@@ -120,14 +121,29 @@
             // chatRichTextBox
             // 
             this.chatRichTextBox.ContextMenuStrip = this.contextMenuStripChat;
-            this.chatRichTextBox.Location = new System.Drawing.Point(180, 71);
+            this.chatRichTextBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.chatRichTextBox.Location = new System.Drawing.Point(180, 75);
             this.chatRichTextBox.Name = "chatRichTextBox";
-            this.chatRichTextBox.Size = new System.Drawing.Size(385, 307);
+            this.chatRichTextBox.Size = new System.Drawing.Size(385, 293);
             this.chatRichTextBox.TabIndex = 5;
             this.chatRichTextBox.Text = "";
             // 
+            // contextMenuStripChat
+            // 
+            this.contextMenuStripChat.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearChatToolStripMenuItem});
+            this.contextMenuStripChat.Name = "contextMenuStripChat";
+            this.contextMenuStripChat.Size = new System.Drawing.Size(128, 26);
+            // 
+            // clearChatToolStripMenuItem
+            // 
+            this.clearChatToolStripMenuItem.Name = "clearChatToolStripMenuItem";
+            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.clearChatToolStripMenuItem.Text = "Clear Chat";
+            // 
             // messageTextBox
             // 
+            this.messageTextBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.messageTextBox.Location = new System.Drawing.Point(180, 412);
             this.messageTextBox.Name = "messageTextBox";
             this.messageTextBox.Size = new System.Drawing.Size(385, 54);
@@ -137,10 +153,12 @@
             // 
             // clientListBox
             // 
+            this.clientListBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.clientListBox.FormattingEnabled = true;
-            this.clientListBox.Location = new System.Drawing.Point(18, 49);
+            this.clientListBox.ItemHeight = 17;
+            this.clientListBox.Location = new System.Drawing.Point(18, 75);
             this.clientListBox.Name = "clientListBox";
-            this.clientListBox.Size = new System.Drawing.Size(151, 329);
+            this.clientListBox.Size = new System.Drawing.Size(151, 293);
             this.clientListBox.TabIndex = 4;
             this.clientListBox.SelectedIndexChanged += new System.EventHandler(this.ClientListBox_SelectedIndexChanged);
             // 
@@ -156,6 +174,7 @@
             // 
             // sendButton
             // 
+            this.sendButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.sendButton.Location = new System.Drawing.Point(21, 412);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(148, 54);
@@ -168,30 +187,17 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label2.Location = new System.Drawing.Point(18, 27);
+            this.label2.Location = new System.Drawing.Point(18, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 7;
             this.label2.Text = "Users:";
             // 
-            // contextMenuStripChat
-            // 
-            this.contextMenuStripChat.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearChatToolStripMenuItem});
-            this.contextMenuStripChat.Name = "contextMenuStripChat";
-            this.contextMenuStripChat.Size = new System.Drawing.Size(128, 26);
-            // 
-            // clearChatToolStripMenuItem
-            // 
-            this.clearChatToolStripMenuItem.Name = "clearChatToolStripMenuItem";
-            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.clearChatToolStripMenuItem.Text = "Clear Chat";
-            // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(756, 488);
+            this.ClientSize = new System.Drawing.Size(583, 504);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ipLabel);
             this.Controls.Add(this.sendButton);

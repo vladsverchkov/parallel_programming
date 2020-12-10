@@ -41,7 +41,7 @@ namespace NetWork.Server.Window
             {
                 dataTable.Columns.Add("Name", typeof(string));
                 dataTable.Columns.Add("Address", typeof(string));
-                dataTable.Columns.Add("Band", typeof(bool));
+                dataTable.Columns.Add("Banned", typeof(bool));
                 dataTable.Columns.Add("Reason", typeof(string));
             }
 
@@ -51,7 +51,7 @@ namespace NetWork.Server.Window
                 {
                     foreach (var client in Server.managedClientsXML.Descendants("Client"))
                     {
-                        dataTable.Rows.Add(client.Attribute("Name").Value, client.Attribute("Address").Value, client.Attribute("Band").Value, client.Attribute("Reason").Value);
+                        dataTable.Rows.Add(client.Attribute("Name").Value, client.Attribute("Address").Value, client.Attribute("Banned").Value, client.Attribute("Reason").Value);
                     }
                 }
                 else
@@ -60,7 +60,7 @@ namespace NetWork.Server.Window
 
                     foreach (var client in Server.managedClientsXML.Descendants("Client"))
                     {
-                        dataTable.Rows.Add(client.Attribute("Name").Value, client.Attribute("Address").Value, client.Attribute("Band").Value, client.Attribute("Reason").Value);
+                        dataTable.Rows.Add(client.Attribute("Name").Value, client.Attribute("Address").Value, client.Attribute("Banned").Value, client.Attribute("Reason").Value);
                     }
                 }
             }
@@ -125,7 +125,7 @@ namespace NetWork.Server.Window
                     break;
 
                 case 2:
-                    managedUsers[currentCell.RowIndex/*here*/].Attribute("Band").Value = currentCell.Value.ToString(); //index out of range
+                    managedUsers[currentCell.RowIndex/*here*/].Attribute("Banned").Value = currentCell.Value.ToString(); //index out of range
                     break;
 
                 case 3:

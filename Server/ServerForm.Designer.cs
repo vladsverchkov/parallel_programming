@@ -53,6 +53,8 @@
             // clientManagerButton
             // 
             this.clientManagerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.clientManagerButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.clientManagerButton.ForeColor = System.Drawing.Color.Firebrick;
             this.clientManagerButton.Location = new System.Drawing.Point(12, 21);
             this.clientManagerButton.Name = "clientManagerButton";
             this.clientManagerButton.Size = new System.Drawing.Size(171, 36);
@@ -64,9 +66,10 @@
             // portLabel
             // 
             this.portLabel.AutoSize = true;
+            this.portLabel.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.portLabel.Location = new System.Drawing.Point(309, 14);
             this.portLabel.Name = "portLabel";
-            this.portLabel.Size = new System.Drawing.Size(28, 13);
+            this.portLabel.Size = new System.Drawing.Size(31, 17);
             this.portLabel.TabIndex = 0;
             this.portLabel.Text = "Port";
             // 
@@ -83,6 +86,7 @@
             // 
             // startButton
             // 
+            this.startButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.startButton.Location = new System.Drawing.Point(365, 21);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(103, 36);
@@ -93,6 +97,7 @@
             // 
             // messageTextBox
             // 
+            this.messageTextBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.messageTextBox.Location = new System.Drawing.Point(210, 385);
             this.messageTextBox.Name = "messageTextBox";
             this.messageTextBox.Size = new System.Drawing.Size(398, 76);
@@ -102,19 +107,24 @@
             // 
             // chatRichTextBox
             // 
+            this.chatRichTextBox.ContextMenuStrip = this.contextMenuStripChat;
+            this.chatRichTextBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.chatRichTextBox.Location = new System.Drawing.Point(210, 96);
             this.chatRichTextBox.Name = "chatRichTextBox";
-            this.chatRichTextBox.Size = new System.Drawing.Size(398, 251);
+            this.chatRichTextBox.Size = new System.Drawing.Size(398, 242);
             this.chatRichTextBox.TabIndex = 6;
             this.chatRichTextBox.Text = "";
             this.chatRichTextBox.TextChanged += new System.EventHandler(this.PortTextBox_TextChanged);
             // 
             // clientListBox
             // 
+            this.clientListBox.ContextMenuStrip = this.contextMenuStripClient;
+            this.clientListBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.clientListBox.FormattingEnabled = true;
+            this.clientListBox.ItemHeight = 17;
             this.clientListBox.Location = new System.Drawing.Point(12, 96);
             this.clientListBox.Name = "clientListBox";
-            this.clientListBox.Size = new System.Drawing.Size(171, 251);
+            this.clientListBox.Size = new System.Drawing.Size(171, 242);
             this.clientListBox.TabIndex = 7;
             this.clientListBox.SelectedIndexChanged += new System.EventHandler(this.ClientListBox_SelectedIndexChanged);
             // 
@@ -128,7 +138,7 @@
             // clearChatToolStripMenuItem
             // 
             this.clearChatToolStripMenuItem.Name = "clearChatToolStripMenuItem";
-            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.clearChatToolStripMenuItem.Text = "Clear Chat";
             this.clearChatToolStripMenuItem.Click += new System.EventHandler(this.clearChatToolStripMenuItem_Click);
             // 
@@ -139,7 +149,7 @@
             this.kickClientToolStripMenuItem,
             this.banClientToolStripMenuItem});
             this.contextMenuStripClient.Name = "contextMenuStripClient";
-            this.contextMenuStripClient.Size = new System.Drawing.Size(159, 92);
+            this.contextMenuStripClient.Size = new System.Drawing.Size(159, 70);
             // 
             // addToManagerToolStripMenuItem
             // 
@@ -164,6 +174,7 @@
             // 
             // sendButton
             // 
+            this.sendButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.sendButton.Location = new System.Drawing.Point(12, 385);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(171, 76);
@@ -175,20 +186,22 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.label1.Location = new System.Drawing.Point(207, 360);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(132, 13);
+            this.label1.Size = new System.Drawing.Size(144, 17);
             this.label1.TabIndex = 11;
             this.label1.Text = "Type your message here:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.label2.Location = new System.Drawing.Point(12, 70);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.Size = new System.Drawing.Size(42, 17);
             this.label2.TabIndex = 12;
             this.label2.Text = "Users:";
             // 

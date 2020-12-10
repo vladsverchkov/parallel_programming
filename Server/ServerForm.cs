@@ -231,7 +231,7 @@ namespace NetWork.Server.Window
 
         private void KickClientToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserData user = Server.GetClient((string)clientListBox.SelectedItem);
+            Server.UserData user = Server.GetClient((string)clientListBox.SelectedItem);
 
             string clientName = clientListBox.GetItemText(clientListBox.SelectedItem);
             if (clientName != null && clientName != string.Empty && selectedUser != null && selectedUser != string.Empty)
