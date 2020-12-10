@@ -458,5 +458,209 @@ namespace NetWork.Server
             }
         }
 
+        public static void AddToManagedClients()
+        {
+            CheckXML();
+            isDataTableUpdating = true;
+
+            var clientInfo =
+                new XElement("Client",
+                    new XAttribute("Name", ""),
+                    new XAttribute("Address", ""),
+                    new XAttribute("Band", false),
+                    new XAttribute("Reason", "")
+            );
+
+            managedClientsXML.Element("Clients").Add(clientInfo);
+            managedClientsXML.Save("ManagedClients.xml");
+        }
+
+        public static void AddToManagedClients(string name)
+        {
+            CheckXML();
+            isDataTableUpdating = true;
+            UserData user = GetClient(name);
+
+            int a = 0;
+            int c = managedClientsXML.Descendants("Client").Count();
+
+            if (managedClientsXML.Descendants("Client").Any())
+            {
+                foreach (var fromManagedClientsXML in managedClientsXML.Descendants("Client"))
+                {
+                    a++;
+
+                    if (user.clientSocket.RemoteEndPoint.ToString() == fromManagedClientsXML.Attribute("Address").Value)
+                    {
+                        break;
+                    }
+
+                    if (a == c)
+                    {
+                        var clientInfo =
+                            new XElement("Client",
+                                new XAttribute("Name", name),
+                                new XAttribute("Address", ((IPEndPoint)user.clientSocket.RemoteEndPoint).Address),
+                                new XAttribute("Band", false),
+                                new XAttribute("Reason", "")
+                        );
+
+                        managedClientsXML.Element("Clients").Add(clientInfo);
+                        managedClientsXML.Save("ManagedClients.xml");
+
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                var clientInfo =
+                    new XElement("Client",
+                        new XAttribute("Name", name),
+                        new XAttribute("Address", ((IPEndPoint)user.clientSocket.RemoteEndPoint).Address),
+                        new XAttribute("Band", false),
+                        new XAttribute("Reason", "")
+                );
+
+                managedClientsXML.Element("Clients").Add(clientInfo);
+                managedClientsXML.Save("ManagedClients.xml");
+            }
+
+        }
+
+        public static void AddToManagedClients(string name, bool bandFromServer)
+        {
+            CheckXML();
+            isDataTableUpdating = true;
+            UserData user = GetClient(name);
+
+            int a = 0;
+            int c = managedClientsXML.Descendants("Client").Count();
+
+            if (managedClientsXML.Descendants("Client").Any())
+            {
+                foreach (var fromManagedClientsXML in managedClientsXML.Descendants("Client"))
+                {
+                    a++;
+
+                    if (user.clientSocket.RemoteEndPoint.ToString() == fromManagedClientsXML.Attribute("Address").Value)
+                        break;
+
+                    if (a == c)
+                    {
+                        var clientInfo =
+                            new XElement("Client",
+                                new XAttribute("Name", name),
+                                new XAttribute("Address", ((IPEndPoint)user.clientSocket.RemoteEndPoint).Address),
+                                new XAttribute("Band", bandFromServer),
+                                new XAttribute("Reason", "")
+                            );
+
+                        managedClientsXML.Element("Clients").Add(clientInfo);
+                        managedClientsXML.Save("ManagedClients.xml");
+
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                var clientInfo =
+                    new XElement("Client",
+                    new XAttribute("Name", name),
+                    new XAttribute("Address", ((IPEndPoint)user.clientSocket.RemoteEndPoint).Address),
+                    new XAttribute("Band", bandFromServer),
+                    new XAttribute("Reason", "")
+                );
+
+                managedClientsXML.Element("Clients").Add(clientInfo);
+                managedClientsXML.Save("ManagedClients.xml");
+            }
+        }
+
+        public static void AddToManagedClients(string name, bool bandFromServer, string reason) //-------------МОЖЛИВО ВИДАЛИТИ ТРЕБА
+        {
+            CheckXML();
+            isDataTableUpdating = true;
+            UserData user = GetClient(name);
+
+            int a = 0;
+            int c = managedClientsXML.Descendants("Client").Count();
+
+            if (managedClientsXML.Descendants("Client").Any())
+            {
+                foreach (var fromManagedClientsXML in managedClientsXML.Descendants("Client"))
+                {
+                    a++;
+
+                    if (user.clientSocket.RemoteEndPoint.ToString() == fromManagedClientsXML.Attribute("Address").Value)
+                        break;
+
+                    if (a == c)
+                    {
+                        var clientInfo =
+                            new XElement("Client",
+                                new XAttribute("Name", name),
+                                new XAttribute("Address", user.clientSocket.RemoteEndPoint),
+                                new XAttribute("Band", bandFromServer),
+                                new XAttribute("Reason", reason)
+                            );
+
+                        managedClientsXML.Element("Clients").Add(clientInfo);
+                        managedClientsXML.Save("ManagedClients.xml");
+
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                var clientInfo =
+                    new XElement("Client",
+                        new XAttribute("Name", name),
+                        new XAttribute("Address", user.clientSocket.RemoteEndPoint),
+                        new XAttribute("Band", bandFromServer),
+                        new XAttribute("Reason", reason)
+                    );
+
+                managedClientsXML.Element("Clients").Add(clientInfo);
+                managedClientsXML.Save("ManagedClients.xml");
+            }
+        }
+
+        public static void RemoveManagedClients(string endPoint)
+        {
+            CheckXML();
+            isDataTableUpdating = true;
+            if (File.Exists("ManagedClients.xml") && endPoint != null)
+            {
+                foreach (var user in managedClientsXML.Descendants("Client"))
+                {
+                    if (user.Attribute("Address").Value == endPoint)
+                    {
+                        user.Remove();
+                        managedClientsXML.Save("ManagedClients.xml");
+                        break;
+                    }
+                }
+            }
+        }
+
+        public static void CheckXML()
+        {
+            if (!File.Exists("ManagedClients.xml"))
+            {
+                managedClientsXML = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new XComment("All managed Clients are here"),
+                    new XElement("Clients"));
+
+                managedClientsXML.Save("ManagedClients.xml");
+
+                managedClientsXML = XDocument.Load("ManagedClients.xml");
+            }
+            else
+            if (managedClientsXML == null)
+                managedClientsXML = XDocument.Load("ManagedClients.xml");
+        }
+
     }
 }
