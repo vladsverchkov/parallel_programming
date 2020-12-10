@@ -282,7 +282,7 @@ namespace NetWork.Server
                             }
                             else
                             {
-                                DisconnectClient(client, "incorrect packet sent");
+                                DisconnectClient(user, "incorrect packet sent");
                             }
                         }
                         break;
@@ -317,6 +317,43 @@ namespace NetWork.Server
             }
         }
 
+        //перевірка, чи забанено юзера
+        static bool IsBand(IPAddress ipAddress)
+        {
+            CheckXML();
+
+            var ips = managedClientsXML.Descendants().Elements("Client").AsEnumerable().ToArray();
+            for (int i = 0; i < ips.Length; i++)
+            {
+                if (ips[i].Attribute("Address").Value == ipAddress.ToString() && (Convert.ToBoolean(ips[i].Attribute("Band").Value)))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //перевірка взятого нікнейму
+        static bool CheckIfNamesTaken(string name)
+        {
+            for (int i = 0; i < users.Count; i++)
+            {
+                if (users[i].name == name)
+                    return true;
+            }
+            return false;
+        }
+
+        public static Socket GetClientSocket(string name)
+        {
+            for (int i = 0; i < users.Count; i++)
+            {
+                if (users[i].name == name)
+                    return users[i].clientSocket;
+            }
+            return null;
+        }
+
         public static UserData GetClient(string name)
         {
             for (int i = 0; i < users.Count; i++)
@@ -325,6 +362,100 @@ namespace NetWork.Server
                     return users[i];
             }
             return null;
+        }
+
+        static int GetClientIndex(UserData Client) 
+        {
+            for (int i = 0; i < users.Count; i++)
+            {
+                if (users[i] == Client)
+                    return i;
+            }
+            return -1;
+        }
+
+        //дісконект юзера
+        public static void DisconnectClient(string userName)
+        {
+            UserData user = GetClient(userName);
+
+            user.clientSocket.Close(); 
+            users.Remove(user); 
+
+            serverForm.UserList(user.name, true);
+            serverForm.ChatWindow(user.name + " disconnected", colorDisconnect);
+
+           
+            if (users.Count > 1)
+            {
+                var clientDisconnecting = new string[1];
+                clientDisconnecting[0] = user.name;
+
+                DataOutExcludeSender(user.clientSocket, 3, clientDisconnecting);
+            }
+        }
+
+        public static void DisconnectClient(string userName, string message)
+        {
+            UserData user = GetClient(userName);
+
+            var clientDisconnectingMessage = new string[2];
+            clientDisconnectingMessage[0] = "Server";
+            clientDisconnectingMessage[1] = message;
+            DataOut(user.clientSocket, 0, clientDisconnectingMessage);
+
+            user.clientSocket.Close(); 
+            users.Remove(user);
+
+            serverForm.UserList(user.name, true);
+            serverForm.ChatWindow(user.name + " disconnected: " + message, colorDisconnect);
+        
+            if (users.Count > 1)
+            {
+                var clientDisconnecting = new string[1];
+                clientDisconnecting[0] = user.name;
+
+                DataOutExcludeSender(user.clientSocket, 3, clientDisconnecting);
+            }
+        }
+
+        public static void DisconnectClient(UserData user)
+        {
+            user.clientSocket.Close();
+            users.Remove(user);
+
+            serverForm.UserList(user.name, true);
+            serverForm.ChatWindow(user.name + " disconnected", colorDisconnect);
+           
+            if (users.Count > 1)
+            {
+                var clientDisconnecting = new string[1];
+                clientDisconnecting[0] = user.name;
+
+                DataOutExcludeSender(user.clientSocket, 3, clientDisconnecting);
+            }
+        }
+
+        public static void DisconnectClient(UserData user, string message)
+        {
+            var clientDisconnectingMessage = new string[2];
+            clientDisconnectingMessage[0] = "Server";
+            clientDisconnectingMessage[1] = message;
+            DataOut(user.clientSocket, 0, clientDisconnectingMessage);
+
+            user.clientSocket.Close(); 
+            users.Remove(user);
+
+            serverForm.UserList(user.name, true); 
+            serverForm.ChatWindow(user.name + " disconnected: " + message, colorDisconnect);
+        
+            if (users.Count > 1)
+            {
+                var clientDisconnecting = new string[1];
+                clientDisconnecting[0] = user.name;
+
+                DataOutExcludeSender(user.clientSocket, 3, clientDisconnecting);
+            }
         }
 
     }
