@@ -1,4 +1,4 @@
-﻿namespace Server
+﻿namespace NetWork.Server.Window
 {
     partial class UserManagerForm
     {
@@ -86,6 +86,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UserManagerForm";
             this.Text = "UserManagerWindow";
+            this.Load += new System.EventHandler(this.ClientManagerWindow_Load);
             this.contextMenuStripClientManager.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClientManager)).EndInit();
             this.ResumeLayout(false);
