@@ -79,5 +79,58 @@ namespace NetWork.Server.Window
         {
             UpdateDataTable();
         }
+
+        public static void RemoveFromDataTable(string clientEndPoint)
+        {
+            Server.CheckXML();
+
+            if (File.Exists("ManagedClients.xml"))
+            {
+                int clients = Server.managedClientsXML.Elements("Clients").Count();
+
+                for (int i = 0; i < Server.managedClientsXML.Descendants("Client").Count(); i++)
+                {
+                    Server.managedClientsXML.Descendants("Client").ToArray()[i].Remove();
+                    break;
+                }
+            }
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                if (row.Field<String>("Address") == clientEndPoint)
+                {
+                    dataTable.Rows.Remove(row);
+                    break;
+                }
+            }
+
+        }
+
+        public static void ChangeDataTable(DataGridViewCell currentCell)
+        {
+            var managedUsers = Server.managedClientsXML.Descendants().Elements("Client").AsEnumerable().ToArray();
+
+            switch (currentCell.ColumnIndex)
+            {
+                case 0:
+                    managedUsers[currentCell.RowIndex].Attribute("Name").Value = currentCell.Value.ToString();
+                    break;
+
+                case 1:
+                    managedUsers[currentCell.RowIndex].Attribute("Address").Value = (Convert.ToBoolean(currentCell.Value)).ToString();
+                    break;
+
+                case 2:
+                    managedUsers[currentCell.RowIndex/*here*/].Attribute("Band").Value = currentCell.Value.ToString(); //index out of range
+                    break;
+
+                case 3:
+                    managedUsers[currentCell.RowIndex].Attribute("Reason").Value = currentCell.Value.ToString();
+                    break;
+            }
+
+            Server.managedClientsXML.Save("ManagedClients.xml");
+            UpdateDataTable();
+        }
     }
 }
