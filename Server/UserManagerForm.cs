@@ -72,7 +72,11 @@ namespace NetWork.Server.Window
 
         private void DataGridViewClientManager_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            if (dataGridViewClientManager.CurrentCell != null && dataGridViewClientManager.RowCount > 0 && dataGridViewClientManager.CurrentCell.RowIndex <= dataGridViewClientManager.RowCount && !Server.isDataTableUpdating) //here cast to string but also value might not be string
+                ChangeDataTable(dataGridViewClientManager.CurrentCell);
 
+            if (Server.isDataTableUpdating)
+                Server.isDataTableUpdating = false;
         }
 
         private void ClientManagerWindow_Load(object sender, EventArgs e)
@@ -131,6 +135,18 @@ namespace NetWork.Server.Window
 
             Server.managedClientsXML.Save("ManagedClients.xml");
             UpdateDataTable();
+        }
+
+        private void AddClientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Server.AddToManagedClients();
+            UpdateDataTable();
+        }
+
+        private void RemoveClientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Server.RemoveManagedClients(dataGridViewClientManager.CurrentRow.Cells[1].Value.ToString());
+            RemoveFromDataTable(dataGridViewClientManager.CurrentRow.Cells[1].Value.ToString());
         }
     }
 }

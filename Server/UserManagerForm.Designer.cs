@@ -44,19 +44,21 @@
             this.addClientToolStripMenuItem,
             this.removeClientToolStripMenuItem});
             this.contextMenuStripClientManager.Name = "contextMenuStripClientManager";
-            this.contextMenuStripClientManager.Size = new System.Drawing.Size(148, 48);
+            this.contextMenuStripClientManager.Size = new System.Drawing.Size(153, 70);
             // 
             // addClientToolStripMenuItem
             // 
             this.addClientToolStripMenuItem.Name = "addClientToolStripMenuItem";
-            this.addClientToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.addClientToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addClientToolStripMenuItem.Text = "Add Client";
+            this.addClientToolStripMenuItem.Click += new System.EventHandler(this.AddClientToolStripMenuItem_Click);
             // 
             // removeClientToolStripMenuItem
             // 
             this.removeClientToolStripMenuItem.Name = "removeClientToolStripMenuItem";
-            this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.removeClientToolStripMenuItem.Text = "Remove Client";
+            this.removeClientToolStripMenuItem.Click += new System.EventHandler(this.RemoveClientToolStripMenuItem_Click);
             // 
             // dataGridViewClientManager
             // 
