@@ -109,32 +109,146 @@ namespace NetWork.Server.Window
 
         private void PortTextBox_TextChanged(object sender, EventArgs e)
         {
-
+            if (portTextBox.BackColor == Color.Red)
+                portTextBox.BackColor = Color.White;
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
+            if (Server.started)
+            {
+                Started(false);
+                Server.StopServer();
+            }
+            else
+            {
+                if (NetworkLib.NetworkFunctions.CheckPortValid(portTextBox.Text))
+                {
+                    if (Server.started)
+                        Started(false);
+                    else
+                        Started(true);
 
+                    Server.port = portTextBox.Text;
+                    Server.StartServer();
+                }
+                else
+                {
+                    portTextBox.BackColor = Color.Red;
+                }
+            }
         }
 
         private void clientManagerButton_Click(object sender, EventArgs e)
         {
-
+            var clientManagerWindow = new UserManagerForm();
+            clientManagerWindow.Show();
         }
 
         private void ClientListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (selectedUser == clientListBox.GetItemText(clientListBox.SelectedItem))
+            {
+                clientListBox.ClearSelected();
+                selectedUser = string.Empty;
 
+                string temp = messageTextBox.Text;
+                messageTextBox.Clear();
+                messageTextBox.SelectionColor = Server.colorChat;
+                messageTextBox.AppendText(temp);
+            }
+            else
+            {
+                selectedUser = clientListBox.GetItemText(clientListBox.SelectedItem);
+
+                messageTextBox.Clear();
+                messageTextBox.SelectionColor = Server.colorSpecificChat;
+                messageTextBox.AppendText(messageTextBox.Text);
+            }
         }
 
         private void MessageTextBox_TextChanged(object sender, EventArgs e)
         {
-
+            if (selectedUser == string.Empty || selectedUser == null)
+                messageTextBox.SelectionColor = Server.colorChat;
+            else if (selectedUser != string.Empty || selectedUser != null)
+                messageTextBox.SelectionColor = Server.colorSpecificChat;
         }
 
         private void SendButton_Click(object sender, EventArgs e)
         {
+            if (Server.started && messageTextBox.TextLength > 0 && Server.users.Count > 0)
+            {
+                if (selectedUser != string.Empty && selectedUser != null)
+                {
+                    var message = new string[2];
+                    message[0] = "Server";
+                    message[1] = messageTextBox.Text;
 
+                    Socket clientSocket = Server.GetClientSocket(selectedUser);
+
+                    if (clientSocket != null)
+                    {
+                        LocalChatWindow("Server" + " -> " + selectedUser + ": " + messageTextBox.Text, Color.Purple);
+                        Server.DataOut(clientSocket, 1, message);
+                        messageTextBox.Clear();
+                        clientListBox.ClearSelected();
+                    }
+                }
+                else
+                {
+                    var message = new string[2];
+                    message[0] = "Server";
+                    message[1] = messageTextBox.Text;
+
+                    LocalChatWindow("Server: " + messageTextBox.Text, Color.DarkBlue);
+                    Server.DataOut(0, message);
+                    messageTextBox.Clear();
+                    clientListBox.ClearSelected();
+                }
+            }
+        }
+
+        private void ServerWindow_Load(object sender, EventArgs e)
+        {
+            sendButton.Enabled = false;
+        }
+
+        private void clearChatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chatRichTextBox.Clear();
+        }
+
+        private void AddToManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string clientName = clientListBox.GetItemText(clientListBox.SelectedItem);
+            if (clientName != null && clientName != string.Empty && selectedUser != null && selectedUser != string.Empty)
+            {
+                Server.AddToManagedClients(clientName);
+                UserManagerForm.UpdateDataTable();
+            }
+        }
+
+        private void KickClientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UserData user = Server.GetClient((string)clientListBox.SelectedItem);
+
+            string clientName = clientListBox.GetItemText(clientListBox.SelectedItem);
+            if (clientName != null && clientName != string.Empty && selectedUser != null && selectedUser != string.Empty)
+            {
+                Server.DisconnectClient(clientName, "Disconnected by server");
+            }
+        }
+
+        private void BanClientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string clientName = clientListBox.GetItemText(clientListBox.SelectedItem);
+            if (clientName != null && clientName != string.Empty && selectedUser != null && selectedUser != string.Empty)
+            {
+                Server.AddToManagedClients(clientName, true);
+                UserManagerForm.UpdateDataTable();
+                Server.DisconnectClient(clientName, "Disconnected by server");
+            }
         }
     }
 }

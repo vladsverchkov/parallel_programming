@@ -77,7 +77,7 @@
             this.portTextBox.MaxLength = 5;
             this.portTextBox.MinimumSize = new System.Drawing.Size(36, 20);
             this.portTextBox.Name = "portTextBox";
-            this.portTextBox.Size = new System.Drawing.Size(36, 20);
+            this.portTextBox.Size = new System.Drawing.Size(36, 22);
             this.portTextBox.TabIndex = 0;
             this.portTextBox.TextChanged += new System.EventHandler(this.PortTextBox_TextChanged);
             // 
@@ -128,8 +128,9 @@
             // clearChatToolStripMenuItem
             // 
             this.clearChatToolStripMenuItem.Name = "clearChatToolStripMenuItem";
-            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.clearChatToolStripMenuItem.Text = "Clear Chat";
+            this.clearChatToolStripMenuItem.Click += new System.EventHandler(this.clearChatToolStripMenuItem_Click);
             // 
             // contextMenuStripClient
             // 
@@ -138,25 +139,28 @@
             this.kickClientToolStripMenuItem,
             this.banClientToolStripMenuItem});
             this.contextMenuStripClient.Name = "contextMenuStripClient";
-            this.contextMenuStripClient.Size = new System.Drawing.Size(159, 70);
+            this.contextMenuStripClient.Size = new System.Drawing.Size(159, 92);
             // 
             // addToManagerToolStripMenuItem
             // 
             this.addToManagerToolStripMenuItem.Name = "addToManagerToolStripMenuItem";
             this.addToManagerToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.addToManagerToolStripMenuItem.Text = "Add to Manager";
+            this.addToManagerToolStripMenuItem.Click += new System.EventHandler(this.AddToManagerToolStripMenuItem_Click);
             // 
             // kickClientToolStripMenuItem
             // 
             this.kickClientToolStripMenuItem.Name = "kickClientToolStripMenuItem";
             this.kickClientToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.kickClientToolStripMenuItem.Text = "Kick Client";
+            this.kickClientToolStripMenuItem.Click += new System.EventHandler(this.KickClientToolStripMenuItem_Click);
             // 
             // banClientToolStripMenuItem
             // 
             this.banClientToolStripMenuItem.Name = "banClientToolStripMenuItem";
             this.banClientToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.banClientToolStripMenuItem.Text = "Ban Client";
+            this.banClientToolStripMenuItem.Click += new System.EventHandler(this.BanClientToolStripMenuItem_Click);
             // 
             // sendButton
             // 
@@ -206,6 +210,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ServerForm";
             this.Text = "Server";
+            this.Load += new System.EventHandler(this.ServerWindow_Load);
             this.contextMenuStripChat.ResumeLayout(false);
             this.contextMenuStripClient.ResumeLayout(false);
             this.ResumeLayout(false);
