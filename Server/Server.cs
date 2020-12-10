@@ -93,5 +93,104 @@ namespace NetWork.Server
             serverForm.ChatWindow("Stopped server", colorAlert);
         }
 
+        public class UserData // клас, що містить дані про юзера 
+        {
+            public Socket clientSocket; 
+            public Thread clientThread; 
+            public bool registerd; 
+            public string name; 
+            public string id; 
+
+            public UserData(Socket clientSocket) 
+            {
+                this.clientSocket = clientSocket; 
+                id = Guid.NewGuid().ToString();
+            }
+
+            public void SendRegistrationPacket(Socket clientSocket) //надсилаємо registration packet юзеру якому потрібен сокет для відправки
+            {
+                if (clientSocket != null)
+                {
+                    if (Server.users.Count > 1)
+                    {
+                        var content = new string[Server.users.Count - 1];
+
+                        int a = 0;
+                        for (int i = 0; i < Server.users.Count; i++)
+                        {
+                            if (Server.users[i].name != null)
+                            {
+                                content[a] = Server.users[i].name;
+                                a++;
+                            }
+                        }
+                        Server.DataOut(clientSocket, 2, content);
+                    }
+                    else
+                    {
+                        var content = new string[1];
+                        Server.DataOut(clientSocket, 2, content);
+                    }
+                }
+            }
+
+        }
+
+        static void ListenThread()
+        {
+            Thread.CurrentThread.IsBackground = true;
+
+            while (started)
+            {
+                listenerSocket.Listen(0); 
+                Socket clientSocket = listenerSocket.Accept();
+                UserData user = new UserData(clientSocket);
+                users.Add(user); 
+                user.clientThread = new Thread(() => Server.DataIn(user));
+                user.clientThread.IsBackground = true;
+                user.clientThread.Start(); 
+                user.SendRegistrationPacket(user.clientSocket); 
+            }
+        }
+
+        static void DataIn(UserData user) 
+        {
+            while (started) 
+            {
+                try
+                {
+                    byte[] buffer; 
+                    int readBytes;
+
+                    buffer = new byte[user.clientSocket.SendBufferSize];  
+                    readBytes = user.clientSocket.Receive(buffer);
+
+                    if (readBytes == 0) 
+                    {
+                        serverForm.ChatWindow("Client socket closed, Disconnecting " + user.name, colorAlert);
+                        break;
+                    }
+                    DataManager(user, Packet.UnPack(buffer)); 
+                }
+                catch
+                {
+                    break;
+                }
+            }
+
+            DisconnectClient(user);
+            Thread.CurrentThread.Abort();
+        }
+
+        public static UserData GetClient(string name)
+        {
+            for (int i = 0; i < users.Count; i++)
+            {
+                if (users[i].name == name)
+                    return users[i];
+            }
+            return null;
+        }
+
     }
 }
