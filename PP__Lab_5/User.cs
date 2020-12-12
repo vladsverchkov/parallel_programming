@@ -99,18 +99,18 @@ namespace NetWork.User // створюємо свій простір імен (�
 
         static void DataManager(Tuple<int, string[]> content) //опрацювання даних
         {
-            if (content.Item1 >= 0 && content.Item1 <= 3)
+            if (content.Item1 >= 0 && content.Item1 <= 4)
             {
                 switch (content.Item1)
                 {
                     case 0: //загальний чат
-                        if (content.Item2.Length == 2 && content.Item2 != null)
-                            userWindow.ChatWindow(content.Item2[0] + ": " + content.Item2[1], colorChat);
+                        if (content.Item2.Length == 3 && content.Item2 != null)
+                            userWindow.ChatWindow("< " + content.Item2[2] + "> " + content.Item2[0] + ": " + content.Item2[1], colorChat);
                         break;
 
                     case 1: //чат з конкретно вказаним юзером
-                        if (content.Item2.Length == 2 && content.Item2 != null)
-                            userWindow.ChatWindow(content.Item2[0] + " -> " + name + ": " + content.Item2[1], colorSpecificChat);
+                        if (content.Item2.Length == 3 && content.Item2 != null)
+                            userWindow.ChatWindow("< " + content.Item2[2] + "> " + content.Item2[0] + " -> " + name + ": " + content.Item2[1], colorSpecificChat);
                         break;
 
                     case 2: //реєстрація

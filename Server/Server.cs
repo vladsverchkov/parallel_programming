@@ -247,38 +247,40 @@ namespace NetWork.Server
 
         static void DataManager(UserData user, Tuple<int, string[]> content) 
         {
-            if (content.Item1 >= 0 && content.Item1 <= 2)
+            if (content.Item1 >= 0 && content.Item1 <= 3)
             {
                 switch (content.Item1)
                 {
                     case 0: //чат
-                        if (user.registerd && content.Item2.Length == 1)
+                        if (user.registerd && content.Item2.Length == 2)
                         {
-                            serverForm.ChatWindow(user.name + ": " + content.Item2[0], colorChat);
+                            serverForm.ChatWindow("**" + content.Item2[1] + "** " + user.name + ": " + content.Item2[0], colorChat);
 
-                            var newContent = new string[2];
+                            var newContent = new string[3];
                             newContent[0] = user.name;
                             newContent[1] = content.Item2[0];
+                            newContent[2] = content.Item2[1];
 
-                            DataOutExcludeSender(user.clientSocket, 0, newContent); //sends
+                            DataOutExcludeSender(user.clientSocket, 0, newContent); 
                         }
                         break;
 
                     case 1: //конкретний чат
-                        if (user.registerd && content.Item2.Length == 2)
+                        if (user.registerd && content.Item2.Length == 3)
                         {
                             if (user.name != content.Item2[0])
                             {
-                                serverForm.ChatWindow(user.name + " -> " + content.Item2[0] + ": " + content.Item2[1], colorSpecificChat);
+                                serverForm.ChatWindow("*-*" + content.Item2[2] + "*-* " + user.name + " -> " + content.Item2[0] + ": " + content.Item2[1], colorSpecificChat);
 
-                                var specificChat = new string[2];
+                                var specificChat = new string[3];
                                 specificChat[0] = user.name;
                                 specificChat[1] = content.Item2[1];
+                                specificChat[2] = content.Item2[2];
 
                                 Socket toClient = GetClientSocket(content.Item2[0]);
 
                                 if (toClient != null)
-                                    DataOut(toClient, 1, specificChat); //sends
+                                    DataOut(toClient, 1, specificChat);
                             }
                             else
                             {

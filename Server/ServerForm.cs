@@ -179,17 +179,21 @@ namespace NetWork.Server.Window
         {
             if (Server.started && messageTextBox.TextLength > 0 && Server.users.Count > 0)
             {
+
+                string answerTime = DateTime.Now.ToLongTimeString();
+
                 if (selectedUser != string.Empty && selectedUser != null)
                 {
-                    var message = new string[2];
+                    var message = new string[3];
                     message[0] = "Server";
                     message[1] = messageTextBox.Text;
+                    message[2] = answerTime;
 
                     Socket clientSocket = Server.GetClientSocket(selectedUser);
 
                     if (clientSocket != null)
                     {
-                        LocalChatWindow("Server" + " -> " + selectedUser + ": " + messageTextBox.Text, Color.Purple);
+                        LocalChatWindow("**" + answerTime + "** " + "Server" + " -> " + selectedUser + ": " + messageTextBox.Text, Color.Purple);
                         Server.DataOut(clientSocket, 1, message);
                         messageTextBox.Clear();
                         clientListBox.ClearSelected();
@@ -197,11 +201,12 @@ namespace NetWork.Server.Window
                 }
                 else
                 {
-                    var message = new string[2];
+                    var message = new string[3];
                     message[0] = "Server";
                     message[1] = messageTextBox.Text;
+                    message[2] = answerTime;
 
-                    LocalChatWindow("Server: " + messageTextBox.Text, Color.DarkBlue);
+                    LocalChatWindow("**" + answerTime + "** " + "Server: " + messageTextBox.Text, Color.DarkBlue);
                     Server.DataOut(0, message);
                     messageTextBox.Clear();
                     clientListBox.ClearSelected();

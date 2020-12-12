@@ -210,21 +210,26 @@ namespace NetWork.User.Window
             {
                 if (selectedUser != string.Empty && selectedUser != null)
                 {
-                    var message = new string[2];
+                    string answerTime = DateTime.Now.ToLongTimeString();
+                    var message = new string[3];
                     message[0] = selectedUser;
                     message[1] = messageTextBox.Text;
+                    message[2] = answerTime;
 
-                    LocalChatWindow(User.name + " -> " + selectedUser + ": " + messageTextBox.Text, User.colorSpecificChat);
+                    LocalChatWindow("<" + answerTime + "> " + User.name + " -> " + selectedUser + ": " + messageTextBox.Text, User.colorSpecificChat);
                     User.DataOut(1, message);
+                   
                     messageTextBox.Clear();
                     clientListBox.ClearSelected();
                 }
                 else
                 {
-                    var message = new string[1];
+                    string answerTime = DateTime.Now.ToLongTimeString();
+                    var message = new string[2];
                     message[0] = messageTextBox.Text;
+                    message[1] = answerTime;
 
-                    LocalChatWindow(User.name + ": " + messageTextBox.Text, User.colorChat);
+                    LocalChatWindow("<" + answerTime + "> " + User.name + ": " + messageTextBox.Text, User.colorChat);
                     User.DataOut(0, message);
                     messageTextBox.Clear();
                     clientListBox.ClearSelected();

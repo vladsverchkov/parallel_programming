@@ -133,13 +133,14 @@
             this.contextMenuStripChat.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearChatToolStripMenuItem});
             this.contextMenuStripChat.Name = "contextMenuStripChat";
-            this.contextMenuStripChat.Size = new System.Drawing.Size(128, 26);
+            this.contextMenuStripChat.Size = new System.Drawing.Size(153, 48);
             // 
             // clearChatToolStripMenuItem
             // 
             this.clearChatToolStripMenuItem.Name = "clearChatToolStripMenuItem";
-            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.clearChatToolStripMenuItem.Text = "Clear Chat";
+            this.clearChatToolStripMenuItem.Click += new System.EventHandler(this.ClearChatToolStripMenuItem_Click);
             // 
             // messageTextBox
             // 
