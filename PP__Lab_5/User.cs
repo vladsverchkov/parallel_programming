@@ -97,6 +97,11 @@ namespace NetWork.User // створюємо свій простір імен (�
             masterSocket.Send(Packet.Pack(content)); //пакування даних та відправка їх до серверу
         }
 
+        public static void FileDataOut(int packetType, string[] sendData)
+        {
+            
+        }
+
         static void DataManager(Tuple<int, string[]> content) //опрацювання даних
         {
             if (content.Item1 >= 0 && content.Item1 <= 4)
@@ -171,6 +176,7 @@ namespace NetWork.User // створюємо свій простір імен (�
             }
         }
 
+        
 
     }
 }

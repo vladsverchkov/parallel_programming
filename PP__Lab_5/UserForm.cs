@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Text;
+using System.Net;
+using System.IO;
+using System.Net.Sockets;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace NetWork.User.Window
 
@@ -19,7 +24,7 @@ namespace NetWork.User.Window
         }
 
         //функція під`єднання до серверу
-        public void Connected(bool connected) 
+        public void Connected(bool connected)
         {
             if (connectButton.InvokeRequired && ipTextBox.InvokeRequired && portTextBox.InvokeRequired && nameTextBox.InvokeRequired && sendButton.InvokeRequired)
             {
@@ -121,7 +126,7 @@ namespace NetWork.User.Window
             }
         }
 
-       
+
         void ClientWindow_Load(object sender, EventArgs e)
         {
             sendButton.Enabled = false;
@@ -184,7 +189,7 @@ namespace NetWork.User.Window
             }
         }
 
-  
+
         void NameTextBox_TextChanged(object sender, EventArgs e)
         {
             if (nameTextBox.BackColor == Color.Red)
@@ -218,7 +223,7 @@ namespace NetWork.User.Window
 
                     LocalChatWindow("<" + answerTime + "> " + User.name + " -> " + selectedUser + ": " + messageTextBox.Text, User.colorSpecificChat);
                     User.DataOut(1, message);
-                   
+
                     messageTextBox.Clear();
                     clientListBox.ClearSelected();
                 }
@@ -271,6 +276,29 @@ namespace NetWork.User.Window
         void ClearChatToolStripMenuItem_Click(object sender, EventArgs e)
         {
             chatRichTextBox.Clear();
+        }
+
+        private void bt_send_Click(object sender, EventArgs e)
+        {
+            if (User.connected)
+            {
+                if (dlg_open_file.ShowDialog() == DialogResult.OK)
+                {
+                    string selected_file = dlg_open_file.FileName;
+                    string file_name = Path.GetFileName(selected_file);
+                    FileStream fs = new FileStream(selected_file, FileMode.Open);
+
+                    string[] data_file = new string[2];
+                    data_file[0] = User.name;
+                    data_file[1] = file_name;
+
+                    User.FileDataOut(8, data_file);
+                }
+            }
+            else
+            {
+                DialogResult dr2 = MessageBox.Show("User is not connected to the Server!");
+            }
         }
     }
 }

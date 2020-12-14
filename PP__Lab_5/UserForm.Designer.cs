@@ -45,6 +45,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.sendButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.dlg_open_file = new System.Windows.Forms.OpenFileDialog();
+            this.bt_send = new System.Windows.Forms.Button();
+            this.pb_upload = new System.Windows.Forms.ProgressBar();
             this.contextMenuStripChat.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,12 +136,12 @@
             this.contextMenuStripChat.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearChatToolStripMenuItem});
             this.contextMenuStripChat.Name = "contextMenuStripChat";
-            this.contextMenuStripChat.Size = new System.Drawing.Size(153, 48);
+            this.contextMenuStripChat.Size = new System.Drawing.Size(128, 26);
             // 
             // clearChatToolStripMenuItem
             // 
             this.clearChatToolStripMenuItem.Name = "clearChatToolStripMenuItem";
-            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearChatToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.clearChatToolStripMenuItem.Text = "Clear Chat";
             this.clearChatToolStripMenuItem.Click += new System.EventHandler(this.ClearChatToolStripMenuItem_Click);
             // 
@@ -147,7 +150,7 @@
             this.messageTextBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.messageTextBox.Location = new System.Drawing.Point(180, 412);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(385, 54);
+            this.messageTextBox.Size = new System.Drawing.Size(385, 110);
             this.messageTextBox.TabIndex = 3;
             this.messageTextBox.Text = "";
             this.messageTextBox.TextChanged += new System.EventHandler(this.MessageTextBox_TextChanged);
@@ -176,9 +179,9 @@
             // sendButton
             // 
             this.sendButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.sendButton.Location = new System.Drawing.Point(21, 412);
+            this.sendButton.Location = new System.Drawing.Point(18, 412);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(148, 54);
+            this.sendButton.Size = new System.Drawing.Size(151, 40);
             this.sendButton.TabIndex = 6;
             this.sendButton.Text = "Send Message";
             this.sendButton.UseVisualStyleBackColor = true;
@@ -194,11 +197,35 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Users:";
             // 
+            // dlg_open_file
+            // 
+            this.dlg_open_file.FileName = "openFileDialog1";
+            // 
+            // bt_send
+            // 
+            this.bt_send.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bt_send.Location = new System.Drawing.Point(18, 458);
+            this.bt_send.Name = "bt_send";
+            this.bt_send.Size = new System.Drawing.Size(151, 36);
+            this.bt_send.TabIndex = 8;
+            this.bt_send.Text = "Send Data";
+            this.bt_send.UseVisualStyleBackColor = true;
+            this.bt_send.Click += new System.EventHandler(this.bt_send_Click);
+            // 
+            // pb_upload
+            // 
+            this.pb_upload.Location = new System.Drawing.Point(18, 500);
+            this.pb_upload.Name = "pb_upload";
+            this.pb_upload.Size = new System.Drawing.Size(151, 23);
+            this.pb_upload.TabIndex = 9;
+            // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 504);
+            this.ClientSize = new System.Drawing.Size(583, 534);
+            this.Controls.Add(this.pb_upload);
+            this.Controls.Add(this.bt_send);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ipLabel);
             this.Controls.Add(this.sendButton);
@@ -237,6 +264,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripChat;
         private System.Windows.Forms.ToolStripMenuItem clearChatToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog dlg_open_file;
+        private System.Windows.Forms.Button bt_send;
+        private System.Windows.Forms.ProgressBar pb_upload;
     }
 }
 
