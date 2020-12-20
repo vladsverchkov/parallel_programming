@@ -280,17 +280,17 @@ namespace NetWork.User.Window
 
         private void bt_send_Click(object sender, EventArgs e)
         {
-            if (User.connected)
+            if (User.connected == true)
             {
                 if (dlg_open_file.ShowDialog() == DialogResult.OK)
                 {
                     string selected_file = dlg_open_file.FileName;
                     string file_name = Path.GetFileName(selected_file);
-                    FileStream fs = new FileStream(selected_file, FileMode.Open);
+                 //   FileStream fs = new FileStream(selected_file, FileMode.Open);                 
 
                     string[] data_file = new string[2];
                     data_file[0] = User.name;
-                    data_file[1] = file_name;
+                    data_file[1] = selected_file;
 
                     User.FileDataOut(8, data_file);
                 }

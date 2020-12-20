@@ -38,23 +38,23 @@ namespace NetWork.User // створюємо свій простір імен (�
 
         public static void Connect() //запит на під`єднання до серверу
         {
-            users = new List<string>(); 
+            users = new List<string>();
             connected = true;
 
-            try 
+            try
             {
                 masterSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(ipAddress), int.Parse(port)); 
+                IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(ipAddress), int.Parse(port));
                 masterSocket.Connect(ipe); //підключення до серверу
             }
-            catch 
+            catch
             {
                 userWindow.ChatWindow("Cannot connect to host!", colorAlert);
                 Disconnect();
             }
 
             Thread dataInThread = new Thread(DataIn); //створення потоку, в якому виконуватиметься DataIn функція
-            dataInThread.Start(); 
+            dataInThread.Start();
         }
 
         public static void Disconnect() //процедура від`єднання від серверу
@@ -65,9 +65,9 @@ namespace NetWork.User // створюємо свій простір імен (�
             masterSocket.Close(); 
         }
 
-        static void DataIn() 
+        static void DataIn()
         {
-            while (connected) 
+            while (connected)
             {
                 try //ловимо SocketException якщо відконнект від серверу
                 {
@@ -85,8 +85,8 @@ namespace NetWork.User // створюємо свій простір імен (�
                 }
                 catch (SocketException se)
                 {
-                    userWindow.ChatWindow("Disconnected", colorAlert);
-                    Disconnect(); 
+                    userWindow.ChatWindow("Disconnected. Reason: " + se, colorAlert);
+                    Disconnect();
                 }
             }
         }
@@ -97,9 +97,11 @@ namespace NetWork.User // створюємо свій простір імен (�
             masterSocket.Send(Packet.Pack(content)); //пакування даних та відправка їх до серверу
         }
 
+        // функція відправки даних до серверу від юзера
         public static void FileDataOut(int packetType, string[] sendData)
         {
-            
+            var content = Tuple.Create(packetType, sendData);
+            masterSocket.Send(Packet.Pack(content)); //пакування даних та відправка їх до серверу
         }
 
         static void DataManager(Tuple<int, string[]> content) //опрацювання даних

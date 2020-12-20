@@ -310,8 +310,12 @@ namespace NetWork.Server
                             userName[0] = user.name;
                             DataOutExcludeSender(user.clientSocket, 3, userName);
                         }
-                        break;
+                        break;              
                 }
+            }
+            else if (content.Item1 == 8)
+            {
+                serverForm.ChatWindow("DataTransfer:" + content.Item2[0] + " has sent " + content.Item2[1], colorSpecificChat);             
             }
             else
             {
