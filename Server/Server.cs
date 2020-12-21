@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
@@ -23,9 +24,13 @@ namespace NetWork.Server
         static IPEndPoint serverIP;
         static Thread listenThread; //потік для прослуховування бажаючих підєднатись
         public static Thread removeUserThread;
-        public static Thread mainThread;
+        public static Thread mainThread;       
         public static XmlDocument managedUsers;
         public static bool isDataTableUpdating;
+
+        //для передачі даних
+        public static Thread fileTransferThread;
+        static Socket fileTransferSocket;
 
         public static List<UserData> users; 
         public static string port; 
@@ -45,12 +50,58 @@ namespace NetWork.Server
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(serverForm = new ServerForm());
+
+           
+
+           
+
+           
+
+            //var thread = new List<Thread>();
+            //thread.Add(new Thread(() => ConnectionTransferData(clientSock)));
+            //foreach (Thread t in thread)
+            //    t.Start();
+
+
+
+            //var thread = new Thread(() => );
+            //thread.Start();
+
+
+            //foreach (Thread t in thread)
+            //    t.Start();
+
+
+        }
+
+        public static void ConnectionTransferData()
+        {
+            //Код для прийому даних від користувачів
+            IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 89);
+            Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            sock.Bind(ipEnd);
+            sock.Listen(50);
+            Socket clientSock = sock.Accept();
+
+            byte[] clientData = new byte[1024 * 5000];
+            string pathToSaveFile = @"I:\C_Sharp_Saves\PP__Lab_5\Server\UserFiles\";
+
+            int receivedBytesLen = clientSock.Receive(clientData);
+            int fileNameLen = BitConverter.ToInt32(clientData, 0);
+            string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
+
+            BinaryWriter bWrite = new BinaryWriter(File.Open(pathToSaveFile + fileName, FileMode.Append)); ;
+            bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
+            Console.WriteLine("DATA HAS BEEN TRANSFERED AND SUCCESSFULY RECEIVED!", Color.Green);
+
+            bWrite.Close();
+            clientSock.Close();
         }
 
         public static void StartServer() //функція запуску серверу
         {
             CheckXML();
-            mainThread = Thread.CurrentThread;
+            mainThread = Thread.CurrentThread;         
 
             if (started)
                 StopServer();
@@ -60,6 +111,14 @@ namespace NetWork.Server
                 listenerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 serverIP = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), int.Parse(port));
                 listenerSocket.Bind(serverIP);
+
+                var thread = new List<Thread>();
+                thread.Add(new Thread(() => ConnectionTransferData()));
+                foreach (Thread t in thread)
+                    t.Start();
+
+                //для передачі даних
+                //fileTransferSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             }
             catch (SocketException ex)
             {

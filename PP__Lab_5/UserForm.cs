@@ -284,15 +284,47 @@ namespace NetWork.User.Window
             {
                 if (dlg_open_file.ShowDialog() == DialogResult.OK)
                 {
-                    string selected_file = dlg_open_file.FileName;
-                    string file_name = Path.GetFileName(selected_file);
-                 //   FileStream fs = new FileStream(selected_file, FileMode.Open);                 
 
-                    string[] data_file = new string[2];
-                    data_file[0] = User.name;
-                    data_file[1] = selected_file;
 
-                    User.FileDataOut(8, data_file);
+                    IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse(User.ipAddress), 89);
+                    Socket clientSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+
+
+                    string selected_file = dlg_open_file.FileName; //повний шлях до обраного файлу
+                    string fileName = Path.GetFileName(selected_file); //шлях до самого файлу
+
+                    byte[] fileNameByte = Encoding.ASCII.GetBytes(fileName);
+
+                    byte[] fileData = File.ReadAllBytes(selected_file);
+                    byte[] clientData = new byte[4 + fileNameByte.Length + fileData.Length];
+                    byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
+
+                    fileNameLen.CopyTo(clientData, 0);
+                    fileNameByte.CopyTo(clientData, 4);
+                    fileData.CopyTo(clientData, 4 + fileNameByte.Length);
+
+                    clientSock.Connect(ipEnd);
+                    clientSock.Send(clientData);
+
+                    LocalChatWindow("File " + fileName + " has been succsessfuly sent!", User.colorChat);
+
+                    clientSock.Close();
+
+
+
+
+
+                    //string selected_file = dlg_open_file.FileName;
+                    //string file_name = Path.GetFileName(selected_file);
+                    //string file_content = System.Convert.ToBase64String(File.ReadAllBytes(selected_file));
+                    //User.masterSocket.SendFile(selected_file);
+
+
+                    //string[] data_file = new string[2];
+                    //data_file[0] = User.name;
+                    //data_file[1] = file_name;
+
+                    //User.FileDataOut(8, data_file);
                 }
             }
             else

@@ -13,7 +13,7 @@ namespace NetWork.User // створюємо свій простір імен (�
     [System.Serializable]
     public class User
     {
-        static Socket masterSocket; // для взаємодії за протоколами ТСР/UDP
+        public static Socket masterSocket; // для взаємодії за протоколами ТСР/UDP
         static UserForm userWindow;
         public static List<string> users; 
         public static string port; 
