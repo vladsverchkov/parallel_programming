@@ -51,12 +51,6 @@ namespace NetWork.Server
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(serverForm = new ServerForm());
 
-           
-
-           
-
-           
-
             //var thread = new List<Thread>();
             //thread.Add(new Thread(() => ConnectionTransferData(clientSock)));
             //foreach (Thread t in thread)
@@ -74,7 +68,7 @@ namespace NetWork.Server
 
         }
 
-        public static void ConnectionTransferData()
+        public static string[] ConnectionTransferData()
         {
             //Код для прийому даних від користувачів
             IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 89);
@@ -89,13 +83,23 @@ namespace NetWork.Server
             int receivedBytesLen = clientSock.Receive(clientData);
             int fileNameLen = BitConverter.ToInt32(clientData, 0);
             string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
+            string[] separator = new string[] { "_--_" };
 
-            BinaryWriter bWrite = new BinaryWriter(File.Open(pathToSaveFile + fileName, FileMode.Append)); ;
+            string[] fileName_words = fileName.Split(separator, StringSplitOptions.None);
+
+            BinaryWriter bWrite = new BinaryWriter(File.Open(pathToSaveFile + fileName_words[1], FileMode.Append));
+            //BinaryWriter bWrite = new BinaryWriter(File.Open(pathToSaveFile + fileName, FileMode.Append)); 
             bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
-            Console.WriteLine("DATA HAS BEEN TRANSFERED AND SUCCESSFULY RECEIVED!", Color.Green);
+
+            string[] messageToServer = new string[2];
+
+            messageToServer[0] = fileName_words[0];
+            messageToServer[1] = fileName_words[1];
 
             bWrite.Close();
             clientSock.Close();
+
+            return messageToServer;
         }
 
         public static void StartServer() //функція запуску серверу
@@ -112,13 +116,22 @@ namespace NetWork.Server
                 serverIP = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), int.Parse(port));
                 listenerSocket.Bind(serverIP);
 
-                var thread = new List<Thread>();
-                thread.Add(new Thread(() => ConnectionTransferData()));
-                foreach (Thread t in thread)
-                    t.Start();
+                //string result = ConnectionTransferData();
+                Thread thread = new Thread(() =>
+                {
+                    string[] res = ConnectionTransferData();
+                    serverForm.ChatWindow("File " + res[1] + " has been received from user " + res[0], Color.CadetBlue);
+                }
+                );
+                thread.Start();
+                //thread.Join();
 
-                //для передачі даних
-                //fileTransferSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //var thread = new List<Thread>();
+                
+                //thread.Add(new Thread(() => ConnectionTransferData()));
+                //foreach (Thread t in thread)
+                //    t.Start();
+
             }
             catch (SocketException ex)
             {

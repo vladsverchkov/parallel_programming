@@ -292,8 +292,9 @@ namespace NetWork.User.Window
 
                     string selected_file = dlg_open_file.FileName; //повний шлях до обраного файлу
                     string fileName = Path.GetFileName(selected_file); //шлях до самого файлу
+                    string user_name = User.name;
 
-                    byte[] fileNameByte = Encoding.ASCII.GetBytes(fileName);
+                    byte[] fileNameByte = Encoding.ASCII.GetBytes(user_name + "_--_" + fileName);
 
                     byte[] fileData = File.ReadAllBytes(selected_file);
                     byte[] clientData = new byte[4 + fileNameByte.Length + fileData.Length];
