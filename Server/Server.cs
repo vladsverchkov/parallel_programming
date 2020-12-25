@@ -50,22 +50,6 @@ namespace NetWork.Server
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(serverForm = new ServerForm());
-
-            //var thread = new List<Thread>();
-            //thread.Add(new Thread(() => ConnectionTransferData(clientSock)));
-            //foreach (Thread t in thread)
-            //    t.Start();
-
-
-
-            //var thread = new Thread(() => );
-            //thread.Start();
-
-
-            //foreach (Thread t in thread)
-            //    t.Start();
-
-
         }
 
         public static string[] ConnectionTransferData()
@@ -102,39 +86,33 @@ namespace NetWork.Server
             return messageToServer;
         }
 
-        //public static string SendDataToClients(string[] data)
-        //{
-        //    try
-        //    {
-        //        if (started && users.Count > 0)
-        //        {
-        //            foreach (UserData user in users)
-        //                user.clientSocket.
-        //        }
-        //        else
-        //            serverForm.ChatWindow("No Clients to send to", colorAlert);
+        public static Tuple<string, string, IPEndPoint> FileRequest()
+        {
 
-        //        //Thread thread = new Thread(() =>
-        //        //{
-        //        //    //serverIP = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 66);
-        //        //    Socket fileSendSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        //        //    IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 66);
-        //        //    fileSendSocket.Connect(ipe); //підключення до юзерів
-        //        //}
-        //        //);
-        //        //thread.Start();
+            IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 111);
+            Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            sock.Bind(ipEnd);
+            sock.Listen(50);
+            Socket clientSock = sock.Accept();
 
-        //    }
+            byte[] clientData = new byte[1024 * 1024];
 
-        //    catch (SocketException ex)
-        //    {
-        //        serverForm.ChatWindow("Some Server error occured (data info transfer to users): " 
-        //            + ex, colorAlert);
-        //        StopServer();
-        //    }
+            int receivedBytesLen = clientSock.Receive(clientData);
+            int fileNameLen = BitConverter.ToInt32(clientData, 0);
+            string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
+            string[] separator = new string[] { "_--_" };
 
-        //    return "Data from SERVER to CLIENTS has been successfuly transfered!";
-        //}
+            string[] fileName_words = fileName.Split(separator, StringSplitOptions.None);
+
+            var messageToServer = Tuple.Create(fileName_words[0], fileName_words[1],
+                ipEnd);
+          
+
+            clientSock.Close();
+
+            return messageToServer;
+        } 
+
 
         public static void StartServer() //функція запуску серверу
         {
@@ -178,14 +156,47 @@ namespace NetWork.Server
                 );
                 thread.Start();
 
-               
-                //thread.Join();
+                Thread thread2 = new Thread(() =>
 
-                //var thread = new List<Thread>();
+                {
+                    var res2 = FileRequest();
 
-                //thread.Add(new Thread(() => ConnectionTransferData()));
-                //foreach (Thread t in thread)
-                //    t.Start();
+                    //IPEndPoint ipEnd2 = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 1112);
+                    //Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                    //sock.Bind(ipEnd2);
+                    //sock.Listen(10);
+
+                    IPEndPoint ipEnd2 = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 1112);
+                    Socket clientSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+
+                    string user_name = res2.Item1;
+                    string fileName = res2.Item2;
+                    //IPEndPoint ipEnd = res2.Item3;
+                    //Socket sock = res2.Item4;
+
+                    //Socket clientSock = sock.Accept();
+
+                    serverForm.ChatWindow("User " + res2.Item1 + " asked to send him file " + res2.Item2, Color.OrangeRed);                   
+
+                    byte[] fileNameByte = Encoding.ASCII.GetBytes(user_name + "_--_" + fileName);
+
+                    byte[] fileData = File.ReadAllBytes(@"I:\C_Sharp_Saves\PP__Lab_5\Server\UserFiles\" + fileName);
+                    byte[] serverData = new byte[4 + fileNameByte.Length + fileData.Length];
+                    byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
+
+                    fileNameLen.CopyTo(serverData, 0);
+                    fileNameByte.CopyTo(serverData, 4);
+                    fileData.CopyTo(serverData, 4 + fileNameByte.Length);
+
+                    clientSock.Connect(ipEnd2);
+                    clientSock.Send(serverData);
+
+                    serverForm.ChatWindow("File " + fileName + " has been succsessfuly sent to " + user_name, Color.Azure);
+
+                }
+                );
+
+                thread2.Start();                              
 
             }
             catch (SocketException ex)

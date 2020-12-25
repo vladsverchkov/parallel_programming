@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
+using NetWork.NetworkLib;
 
 namespace NetWork.User.Window
 
@@ -14,6 +15,7 @@ namespace NetWork.User.Window
     {
         static User user = new User();
         static string selectedUser;
+        static string selectedFile;
         delegate void ConnectedDelegate(bool connected);
         delegate void ChatDelegate(string message, Color color);
         delegate void UserListDelegate(string userName, bool remove);
@@ -68,7 +70,7 @@ namespace NetWork.User.Window
 
         void LocalFileList(string userName, string fileName)
         {
-            fileListBox.Items.Add(userName + " has sent file: " + fileName);
+            fileListBox.Items.Add("User " + userName + " has sent file: " + fileName);
         }
 
         //список користувачів чату
@@ -330,22 +332,6 @@ namespace NetWork.User.Window
                     LocalChatWindow("File " + fileName + " has been succsessfuly sent!", User.colorChat);
 
                     clientSock.Close();
-
-
-
-
-
-                    //string selected_file = dlg_open_file.FileName;
-                    //string file_name = Path.GetFileName(selected_file);
-                    //string file_content = System.Convert.ToBase64String(File.ReadAllBytes(selected_file));
-                    //User.masterSocket.SendFile(selected_file);
-
-
-                    //string[] data_file = new string[2];
-                    //data_file[0] = User.name;
-                    //data_file[1] = file_name;
-
-                    //User.FileDataOut(8, data_file);
                 }
             }
             else
@@ -358,5 +344,111 @@ namespace NetWork.User.Window
         {
 
         }
+
+        private void buttonGetFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                selectedFile = fileListBox.GetItemText(fileListBox.SelectedItem);
+
+                if (selectedFile != "")
+                {
+
+                    Thread thread = new Thread(() =>
+                    {
+
+                        string[] separator = new string[] { ": " };
+                        string[] fileName_words = selectedFile.Split(separator, StringSplitOptions.None);
+
+                        //fileListBox.Items.Add(fileName_words[1]); отображает имя желаемого файла, все хорошо
+
+                        IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse(User.ipAddress), 111);
+                        Socket clientSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+
+                        string user_name = User.name;
+
+                        byte[] fileNameByte = Encoding.ASCII.GetBytes(user_name + "_--_" + fileName_words[1]);
+
+
+                        byte[] clientData = new byte[4 + fileNameByte.Length];
+                        byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
+
+                        fileNameLen.CopyTo(clientData, 0);
+                        fileNameByte.CopyTo(clientData, 4);
+
+                        clientSock.Connect(ipEnd);
+                        clientSock.Send(clientData);
+
+                        //LocalChatWindow("You have been asking for file " + fileName_words[1], User.colorChat);
+
+                        clientSock.Disconnect(true);
+
+
+                    }
+                    );
+                    thread.Start();
+
+                    thread.Join();
+
+                    string[] res = ConnectionTransferData();
+                    LocalChatWindow("---File " + res[1] + " has been received from server!---", Color.CadetBlue);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                DialogResult dr = MessageBox.Show("Hey! Some error occured: " + ex);
+            }
+
+
+        }
+
+        public static string[] ConnectionTransferData()
+        {
+
+            string[] messageToServer = new string[2];
+
+            try
+            {
+                //Код для прийому даних від користувачів
+                IPEndPoint ipEnd2 = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 1112);
+                Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                sock.Bind(ipEnd2);
+                sock.Listen(50);
+                Socket clientSock = sock.Accept();
+
+                byte[] clientData = new byte[1024 * 5000];
+                string pathToSaveFile = @"I:\C_Sharp_Saves\PP__Lab_5\PP__Lab_5\UserFiles\";
+
+                int receivedBytesLen = clientSock.Receive(clientData);
+                int fileNameLen = BitConverter.ToInt32(clientData, 0);
+                string fileName = Encoding.ASCII.GetString(clientData, 4, fileNameLen);
+                string[] separator = new string[] { "_--_" };
+
+                string[] fileName_words = fileName.Split(separator, StringSplitOptions.None);
+
+                BinaryWriter bWrite = new BinaryWriter(File.Open(pathToSaveFile + fileName_words[1], FileMode.Append));
+                //BinaryWriter bWrite = new BinaryWriter(File.Open(pathToSaveFile + fileName, FileMode.Append)); 
+                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
+
+
+
+                messageToServer[0] = fileName_words[0];
+                messageToServer[1] = fileName_words[1];
+
+                bWrite.Close();
+                clientSock.Close();
+
+
+            }
+            catch (Exception ex)
+            {
+                DialogResult dr = MessageBox.Show("Hey! Some error occured: " + ex);
+            }
+            return messageToServer;
+        }
     }
 }
+

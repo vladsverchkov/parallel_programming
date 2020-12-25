@@ -47,9 +47,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dlg_open_file = new System.Windows.Forms.OpenFileDialog();
             this.bt_send = new System.Windows.Forms.Button();
-            this.pb_upload = new System.Windows.Forms.ProgressBar();
             this.label3 = new System.Windows.Forms.Label();
             this.fileListBox = new System.Windows.Forms.ListBox();
+            this.buttonGetFile = new System.Windows.Forms.Button();
             this.contextMenuStripChat.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -129,7 +129,7 @@
             this.chatRichTextBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.chatRichTextBox.Location = new System.Drawing.Point(216, 75);
             this.chatRichTextBox.Name = "chatRichTextBox";
-            this.chatRichTextBox.Size = new System.Drawing.Size(373, 293);
+            this.chatRichTextBox.Size = new System.Drawing.Size(373, 174);
             this.chatRichTextBox.TabIndex = 5;
             this.chatRichTextBox.Text = "";
             // 
@@ -150,9 +150,9 @@
             // messageTextBox
             // 
             this.messageTextBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.messageTextBox.Location = new System.Drawing.Point(216, 412);
+            this.messageTextBox.Location = new System.Drawing.Point(216, 426);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(373, 110);
+            this.messageTextBox.Size = new System.Drawing.Size(373, 96);
             this.messageTextBox.TabIndex = 3;
             this.messageTextBox.Text = "";
             this.messageTextBox.TextChanged += new System.EventHandler(this.MessageTextBox_TextChanged);
@@ -172,7 +172,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label1.Location = new System.Drawing.Point(213, 386);
+            this.label1.Location = new System.Drawing.Point(213, 401);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(132, 13);
             this.label1.TabIndex = 5;
@@ -181,7 +181,7 @@
             // sendButton
             // 
             this.sendButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.sendButton.Location = new System.Drawing.Point(18, 412);
+            this.sendButton.Location = new System.Drawing.Point(18, 426);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(180, 40);
             this.sendButton.TabIndex = 6;
@@ -206,20 +206,13 @@
             // bt_send
             // 
             this.bt_send.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bt_send.Location = new System.Drawing.Point(18, 458);
+            this.bt_send.Location = new System.Drawing.Point(18, 472);
             this.bt_send.Name = "bt_send";
-            this.bt_send.Size = new System.Drawing.Size(180, 36);
+            this.bt_send.Size = new System.Drawing.Size(180, 50);
             this.bt_send.TabIndex = 8;
             this.bt_send.Text = "Send Data";
             this.bt_send.UseVisualStyleBackColor = true;
             this.bt_send.Click += new System.EventHandler(this.bt_send_Click);
-            // 
-            // pb_upload
-            // 
-            this.pb_upload.Location = new System.Drawing.Point(18, 500);
-            this.pb_upload.Name = "pb_upload";
-            this.pb_upload.Size = new System.Drawing.Size(180, 23);
-            this.pb_upload.TabIndex = 9;
             // 
             // label3
             // 
@@ -235,21 +228,34 @@
             // 
             this.fileListBox.Font = new System.Drawing.Font("Franklin Gothic Medium", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.fileListBox.FormattingEnabled = true;
+            this.fileListBox.HorizontalScrollbar = true;
             this.fileListBox.ItemHeight = 17;
             this.fileListBox.Location = new System.Drawing.Point(18, 279);
             this.fileListBox.Name = "fileListBox";
-            this.fileListBox.Size = new System.Drawing.Size(180, 89);
+            this.fileListBox.Size = new System.Drawing.Size(571, 89);
             this.fileListBox.TabIndex = 10;
             this.fileListBox.SelectedIndexChanged += new System.EventHandler(this.fileListBox_SelectedIndexChanged);
+            // 
+            // buttonGetFile
+            // 
+            this.buttonGetFile.BackColor = System.Drawing.Color.BurlyWood;
+            this.buttonGetFile.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonGetFile.Location = new System.Drawing.Point(18, 374);
+            this.buttonGetFile.Name = "buttonGetFile";
+            this.buttonGetFile.Size = new System.Drawing.Size(180, 40);
+            this.buttonGetFile.TabIndex = 12;
+            this.buttonGetFile.Text = "Receive File";
+            this.buttonGetFile.UseVisualStyleBackColor = false;
+            this.buttonGetFile.Click += new System.EventHandler(this.buttonGetFile_Click);
             // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(601, 534);
+            this.Controls.Add(this.buttonGetFile);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.fileListBox);
-            this.Controls.Add(this.pb_upload);
             this.Controls.Add(this.bt_send);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ipLabel);
@@ -291,9 +297,9 @@
         private System.Windows.Forms.ToolStripMenuItem clearChatToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog dlg_open_file;
         private System.Windows.Forms.Button bt_send;
-        private System.Windows.Forms.ProgressBar pb_upload;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox fileListBox;
+        private System.Windows.Forms.Button buttonGetFile;
     }
 }
 
