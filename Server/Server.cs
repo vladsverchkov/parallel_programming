@@ -102,6 +102,40 @@ namespace NetWork.Server
             return messageToServer;
         }
 
+        //public static string SendDataToClients(string[] data)
+        //{
+        //    try
+        //    {
+        //        if (started && users.Count > 0)
+        //        {
+        //            foreach (UserData user in users)
+        //                user.clientSocket.
+        //        }
+        //        else
+        //            serverForm.ChatWindow("No Clients to send to", colorAlert);
+
+        //        //Thread thread = new Thread(() =>
+        //        //{
+        //        //    //serverIP = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 66);
+        //        //    Socket fileSendSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        //        //    IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(NetworkFunctions.GetIP4Address()), 66);
+        //        //    fileSendSocket.Connect(ipe); //підключення до юзерів
+        //        //}
+        //        //);
+        //        //thread.Start();
+
+        //    }
+
+        //    catch (SocketException ex)
+        //    {
+        //        serverForm.ChatWindow("Some Server error occured (data info transfer to users): " 
+        //            + ex, colorAlert);
+        //        StopServer();
+        //    }
+
+        //    return "Data from SERVER to CLIENTS has been successfuly transfered!";
+        //}
+
         public static void StartServer() //функція запуску серверу
         {
             CheckXML();
@@ -121,13 +155,34 @@ namespace NetWork.Server
                 {
                     string[] res = ConnectionTransferData();
                     serverForm.ChatWindow("File " + res[1] + " has been received from user " + res[0], Color.CadetBlue);
+
+                    var content = Tuple.Create(4, res);
+                    byte[] packet = Packet.Pack(content);
+
+                    try
+                    {
+                        if (started && users.Count > 0)
+                        {
+                            foreach (UserData user in users)
+                                user.clientSocket.Send(packet);
+                        }
+                        else
+                            serverForm.ChatWindow("No Clients to send to", colorAlert);
+                    }
+                    catch (SocketException sx)
+                    {
+                        serverForm.ChatWindow("SocketException: " + sx, colorAlert);
+                    }
+
                 }
                 );
                 thread.Start();
+
+               
                 //thread.Join();
 
                 //var thread = new List<Thread>();
-                
+
                 //thread.Add(new Thread(() => ConnectionTransferData()));
                 //foreach (Thread t in thread)
                 //    t.Start();

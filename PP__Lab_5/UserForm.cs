@@ -17,6 +17,7 @@ namespace NetWork.User.Window
         delegate void ConnectedDelegate(bool connected);
         delegate void ChatDelegate(string message, Color color);
         delegate void UserListDelegate(string userName, bool remove);
+        delegate void FileListDelegate(string userName, string fileName);
 
         public UserForm()
         {
@@ -37,7 +38,7 @@ namespace NetWork.User.Window
             }
         }
 
-        //повідомлення про результат під`єднання
+        //виведення повідомлень до чату
         public void ChatWindow(string message, Color color)
         {
             if (chatRichTextBox.InvokeRequired)
@@ -51,12 +52,31 @@ namespace NetWork.User.Window
             }
         }
 
+        //виведення надійшовших файлів до відповідного боксу
+        public void FileList(string user, string fileName)
+        {
+            if (fileListBox.InvokeRequired)
+            {
+                var threadSafe = new FileListDelegate(LocalFileList);
+                Invoke(threadSafe, new object[] { user, fileName });
+            }
+            else
+            {
+                LocalFileList(user, fileName);
+            }
+        }
+
+        void LocalFileList(string userName, string fileName)
+        {
+            fileListBox.Items.Add(userName + " has sent file: " + fileName);
+        }
+
         //список користувачів чату
         public void UserList(string userName, bool remove)
         {
             if (clientListBox.InvokeRequired)
             {
-                var threadSafe = new UserListDelegate(LocalUserList);
+                var threadSafe = new UserListDelegate(LocalUserList); //делегат необхідний для передачі даних між потоками
                 Invoke(threadSafe, new object[] { userName, remove });
             }
             else
@@ -332,6 +352,11 @@ namespace NetWork.User.Window
             {
                 DialogResult dr2 = MessageBox.Show("User is not connected to the Server!");
             }
+        }
+
+        private void fileListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

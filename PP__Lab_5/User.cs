@@ -174,6 +174,10 @@ namespace NetWork.User // створюємо свій простір імен (�
                             }
                         }
                         break;
+
+                    case 4://інформація про надходження файлу                        
+                        userWindow.FileList(content.Item2[0], content.Item2[1]);                                       
+                        break;
                 }
             }
         }
